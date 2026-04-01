@@ -26,3 +26,5 @@ TODO.txt
 coverage.xml
 .coverage
 black.ipynb
+
+experiments/**/*.JPEG
