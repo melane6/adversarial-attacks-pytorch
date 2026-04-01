@@ -65,6 +65,18 @@ def sample_and_create_dataset_json(
         json.dump(sampled, f, default=str, indent=2)
 
 
+def get_dataset_json(out_dir: str = "./data/miniimagenet") -> List[ImageNetData]:
+    """Load the dataset JSON file from `out_dir/dataset.json`.
+
+    Note: To be used by other experiments/scripts.
+    """
+    import json
+
+    with open(Path(out_dir) / "dataset.json") as f:
+        data = json.load(f)
+    return [ImageNetData(**d) for d in data]
+
+
 def main(argv: List[str] | None = None) -> int:
     import argparse
 
