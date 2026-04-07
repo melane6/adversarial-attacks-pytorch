@@ -1,44 +1,26 @@
-# dataset helpers
+# dataset helpers (simplified)
 
-- `download_miniimagenet.py` — download a Kaggle mini-ImageNet dataset and list images.
-- `dataset.py` — find image files, load the class index, parse image metadata and write a sampled `dataset.json`.
-- The `kaggle` package is required only for `download_miniimagenet.py`.
-  - Install with: `pip install kaggle`
-  - Provide credentials by setting `KAGGLE_API_TOKEN` as environment variable.
+- `download_miniimagenet.py` — optional helper to download the Mini-ImageNet dataset from Kaggle.
+- `dataset.py` — produce a small deterministic `dataset.json` that `convnext.py` can load directly.
 
-1. Download the dataset from Kaggle (optional — if you already have the dataset, skip this):
+Install the Kaggle client if you need downloading:
 
 ```bash
 pip install kaggle
-cd experiments
-KAGGLE_API_TOKEN=<token> python download_miniimagenet.py --dataset deeptrial/miniimagenet --out ./data/miniimagenet
 ```
 
-The script will create `./data/miniimagenet` (if necessary), download and unzip the dataset, and print how many image files were found, or you could just download the dataset manually from Kaggle and place it in `./data/miniimagenet`.
-
-2. Create a sampled dataset JSON file as the "truth"
+Create `dataset.json` (simple, deterministic slice of discovered images):
 
 ```bash
 cd experiments
-python dataset.py --out ./data/miniimagenet
+python dataset.py --out ./data/miniimagenet --sample-size 500
 ```
 
-This will:
+Run ConvNeXt attack using the dataset JSON:
 
-- find image files under `./data/miniimagenet` (searches common image extensions),
-- load `ImageNet-Mini/imagenet_class_index.json` from the same directory, and
-- sample 500 random entries and write `./data/miniimagenet/dataset.json`.
-
-Output format
-The resulting `dataset.json` is a JSON array of objects, see example:
-
-```json
-[
-	{
-		"image_path": "data/miniimagenet/n01440764/n01440764_1.JPEG",
-		"label": "n01440764",
-		"classification": "tench"
-	},
-	...
-]
+```bash
+cd experiments
+python convnext.py --dataset-json ./data/miniimagenet/dataset.json --num-images 5
 ```
+
+Output format (short): `dataset.json` is an object with `metadata` and `samples`. Each sample has `image_path`, `synset`, `class_name`, and `class_id`.
