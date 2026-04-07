@@ -3,11 +3,12 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 from typing import List
+import logging
+import time
 
 import torch
 from PIL import Image
-from torchvision import models
-from torchvision import transforms
+from torchvision import models, transforms
 from dataset import load_samples
 
 from torchattacks import OnePixel
@@ -56,6 +57,11 @@ def parse_args() -> argparse.Namespace:
         default="convnext",
         help="Model to attack.",
     )
+    p.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug logging.",
+    )
     return p.parse_args()
 
 
@@ -70,7 +76,12 @@ def main() -> int:
         )
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"Using device: {device}")
+    log_level = logging.DEBUG if args.verbose else logging.INFO
+    logging.basicConfig(
+        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+    logger = logging.getLogger("attack")
+    logger.info(f"Using device: {device}")
 
     weights = WEIGHTS[args.model]
     model = MODELS[args.model](weights=weights).to(device).eval()
@@ -108,8 +119,11 @@ def main() -> int:
     atk.set_normalization_used(mean=mean, std=std)
 
     with torch.no_grad():
+        logger.info("Computing clean predictions for candidate images...")
+        t0 = time.time()
         clean_logits = model(images_t)
         clean_pred = clean_logits.argmax(dim=1)
+        logger.info(f"Clean predictions computed in {time.time() - t0:.2f}s")
 
     clean_correct_mask = clean_pred.eq(labels_t)
     clean_correct_count = int(clean_correct_mask.sum().item())
@@ -129,7 +143,12 @@ def main() -> int:
     selected_labels_t = labels_t[selected_indices]
     selected_clean_pred = clean_pred[selected_indices]
 
+    logger.info(
+        f"Starting OnePixel attack on {len(selected_samples)} images (pixels={args.pixels}, steps={args.steps}, popsize={args.popsize}). This may take a while."
+    )
+    t_attack = time.time()
     adv = atk(selected_images_t, selected_labels_t)
+    logger.info(f"OnePixel attack completed in {time.time() - t_attack:.2f}s")
     with torch.no_grad():
         pred_adv = model(adv).argmax(dim=1)
 
@@ -148,15 +167,15 @@ def main() -> int:
 
     success_rate = success_mask.float().mean().item() * 100.0
 
-    print("\nResults:")
-    print(
+    logger.info("Results:")
+    logger.info(
         f"Selected {len(selected_samples)} clean-correct images from {len(samples)} candidates."
     )
     for line in sample_lines:
-        print(line)
+        logger.info(line)
 
-    print(
-        f"\nAttack success rate on clean-correct set: {success_rate:.2f}% ({len(selected_samples)} images)."
+    logger.info(
+        f"Attack success rate on clean-correct set: {success_rate:.2f}% ({len(selected_samples)} images)."
     )
 
     with open("result.txt", "w") as f:
