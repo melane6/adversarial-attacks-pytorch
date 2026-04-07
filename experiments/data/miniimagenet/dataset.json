@@ -1,0 +1,3009 @@
+{
+  "metadata": {
+    "version": 2,
+    "dataset_root": "/mnt/data/adversarial-attacks-pytorch/experiments/data/miniimagenet",
+    "sample_size": 500
+  },
+  "samples": [
+    {
+      "image_path": "ImageNet-Mini/images/n01440764/ILSVRC2012_val_00009111.JPEG",
+      "synset": "n01440764",
+      "class_name": "tench",
+      "class_id": 0
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01440764/ILSVRC2012_val_00030740.JPEG",
+      "synset": "n01440764",
+      "class_name": "tench",
+      "class_id": 0
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01440764/ILSVRC2012_val_00046252.JPEG",
+      "synset": "n01440764",
+      "class_name": "tench",
+      "class_id": 0
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01443537/ILSVRC2012_val_00000994.JPEG",
+      "synset": "n01443537",
+      "class_name": "goldfish",
+      "class_id": 1
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01443537/ILSVRC2012_val_00002241.JPEG",
+      "synset": "n01443537",
+      "class_name": "goldfish",
+      "class_id": 1
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01443537/ILSVRC2012_val_00020822.JPEG",
+      "synset": "n01443537",
+      "class_name": "goldfish",
+      "class_id": 1
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01484850/ILSVRC2012_val_00014467.JPEG",
+      "synset": "n01484850",
+      "class_name": "great_white_shark",
+      "class_id": 2
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01484850/ILSVRC2012_val_00019409.JPEG",
+      "synset": "n01484850",
+      "class_name": "great_white_shark",
+      "class_id": 2
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01484850/ILSVRC2012_val_00027514.JPEG",
+      "synset": "n01484850",
+      "class_name": "great_white_shark",
+      "class_id": 2
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01484850/ILSVRC2012_val_00030127.JPEG",
+      "synset": "n01484850",
+      "class_name": "great_white_shark",
+      "class_id": 2
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01484850/ILSVRC2012_val_00039445.JPEG",
+      "synset": "n01484850",
+      "class_name": "great_white_shark",
+      "class_id": 2
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01491361/ILSVRC2012_val_00007875.JPEG",
+      "synset": "n01491361",
+      "class_name": "tiger_shark",
+      "class_id": 3
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01491361/ILSVRC2012_val_00015631.JPEG",
+      "synset": "n01491361",
+      "class_name": "tiger_shark",
+      "class_id": 3
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01491361/ILSVRC2012_val_00026001.JPEG",
+      "synset": "n01491361",
+      "class_name": "tiger_shark",
+      "class_id": 3
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01494475/ILSVRC2012_val_00012546.JPEG",
+      "synset": "n01494475",
+      "class_name": "hammerhead",
+      "class_id": 4
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01494475/ILSVRC2012_val_00016259.JPEG",
+      "synset": "n01494475",
+      "class_name": "hammerhead",
+      "class_id": 4
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01494475/ILSVRC2012_val_00027160.JPEG",
+      "synset": "n01494475",
+      "class_name": "hammerhead",
+      "class_id": 4
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01494475/ILSVRC2012_val_00034178.JPEG",
+      "synset": "n01494475",
+      "class_name": "hammerhead",
+      "class_id": 4
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01494475/ILSVRC2012_val_00039588.JPEG",
+      "synset": "n01494475",
+      "class_name": "hammerhead",
+      "class_id": 4
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01496331/ILSVRC2012_val_00007569.JPEG",
+      "synset": "n01496331",
+      "class_name": "electric_ray",
+      "class_id": 5
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01496331/ILSVRC2012_val_00017196.JPEG",
+      "synset": "n01496331",
+      "class_name": "electric_ray",
+      "class_id": 5
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01496331/ILSVRC2012_val_00037260.JPEG",
+      "synset": "n01496331",
+      "class_name": "electric_ray",
+      "class_id": 5
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01498041/ILSVRC2012_val_00013655.JPEG",
+      "synset": "n01498041",
+      "class_name": "stingray",
+      "class_id": 6
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01498041/ILSVRC2012_val_00032394.JPEG",
+      "synset": "n01498041",
+      "class_name": "stingray",
+      "class_id": 6
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01498041/ILSVRC2012_val_00036118.JPEG",
+      "synset": "n01498041",
+      "class_name": "stingray",
+      "class_id": 6
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514668/ILSVRC2012_val_00012484.JPEG",
+      "synset": "n01514668",
+      "class_name": "cock",
+      "class_id": 7
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514668/ILSVRC2012_val_00019101.JPEG",
+      "synset": "n01514668",
+      "class_name": "cock",
+      "class_id": 7
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514668/ILSVRC2012_val_00048952.JPEG",
+      "synset": "n01514668",
+      "class_name": "cock",
+      "class_id": 7
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514859/ILSVRC2012_val_00014917.JPEG",
+      "synset": "n01514859",
+      "class_name": "hen",
+      "class_id": 8
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514859/ILSVRC2012_val_00037719.JPEG",
+      "synset": "n01514859",
+      "class_name": "hen",
+      "class_id": 8
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01514859/ILSVRC2012_val_00048242.JPEG",
+      "synset": "n01514859",
+      "class_name": "hen",
+      "class_id": 8
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01518878/ILSVRC2012_val_00008294.JPEG",
+      "synset": "n01518878",
+      "class_name": "ostrich",
+      "class_id": 9
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01518878/ILSVRC2012_val_00034316.JPEG",
+      "synset": "n01518878",
+      "class_name": "ostrich",
+      "class_id": 9
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01518878/ILSVRC2012_val_00048600.JPEG",
+      "synset": "n01518878",
+      "class_name": "ostrich",
+      "class_id": 9
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01530575/ILSVRC2012_val_00000651.JPEG",
+      "synset": "n01530575",
+      "class_name": "brambling",
+      "class_id": 10
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01530575/ILSVRC2012_val_00002023.JPEG",
+      "synset": "n01530575",
+      "class_name": "brambling",
+      "class_id": 10
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01530575/ILSVRC2012_val_00002191.JPEG",
+      "synset": "n01530575",
+      "class_name": "brambling",
+      "class_id": 10
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01530575/ILSVRC2012_val_00045172.JPEG",
+      "synset": "n01530575",
+      "class_name": "brambling",
+      "class_id": 10
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01531178/ILSVRC2012_val_00001274.JPEG",
+      "synset": "n01531178",
+      "class_name": "goldfinch",
+      "class_id": 11
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01531178/ILSVRC2012_val_00025151.JPEG",
+      "synset": "n01531178",
+      "class_name": "goldfinch",
+      "class_id": 11
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01531178/ILSVRC2012_val_00029581.JPEG",
+      "synset": "n01531178",
+      "class_name": "goldfinch",
+      "class_id": 11
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01531178/ILSVRC2012_val_00048710.JPEG",
+      "synset": "n01531178",
+      "class_name": "goldfinch",
+      "class_id": 11
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01532829/ILSVRC2012_val_00013456.JPEG",
+      "synset": "n01532829",
+      "class_name": "house_finch",
+      "class_id": 12
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01532829/ILSVRC2012_val_00028791.JPEG",
+      "synset": "n01532829",
+      "class_name": "house_finch",
+      "class_id": 12
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01532829/ILSVRC2012_val_00043392.JPEG",
+      "synset": "n01532829",
+      "class_name": "house_finch",
+      "class_id": 12
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01534433/ILSVRC2012_val_00001915.JPEG",
+      "synset": "n01534433",
+      "class_name": "junco",
+      "class_id": 13
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01534433/ILSVRC2012_val_00004245.JPEG",
+      "synset": "n01534433",
+      "class_name": "junco",
+      "class_id": 13
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01534433/ILSVRC2012_val_00027831.JPEG",
+      "synset": "n01534433",
+      "class_name": "junco",
+      "class_id": 13
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01534433/ILSVRC2012_val_00047333.JPEG",
+      "synset": "n01534433",
+      "class_name": "junco",
+      "class_id": 13
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01537544/ILSVRC2012_val_00023438.JPEG",
+      "synset": "n01537544",
+      "class_name": "indigo_bunting",
+      "class_id": 14
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01537544/ILSVRC2012_val_00023573.JPEG",
+      "synset": "n01537544",
+      "class_name": "indigo_bunting",
+      "class_id": 14
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01537544/ILSVRC2012_val_00036431.JPEG",
+      "synset": "n01537544",
+      "class_name": "indigo_bunting",
+      "class_id": 14
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01537544/ILSVRC2012_val_00041252.JPEG",
+      "synset": "n01537544",
+      "class_name": "indigo_bunting",
+      "class_id": 14
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01558993/ILSVRC2012_val_00001598.JPEG",
+      "synset": "n01558993",
+      "class_name": "robin",
+      "class_id": 15
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01558993/ILSVRC2012_val_00027535.JPEG",
+      "synset": "n01558993",
+      "class_name": "robin",
+      "class_id": 15
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01558993/ILSVRC2012_val_00043300.JPEG",
+      "synset": "n01558993",
+      "class_name": "robin",
+      "class_id": 15
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01560419/ILSVRC2012_val_00004037.JPEG",
+      "synset": "n01560419",
+      "class_name": "bulbul",
+      "class_id": 16
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01560419/ILSVRC2012_val_00011420.JPEG",
+      "synset": "n01560419",
+      "class_name": "bulbul",
+      "class_id": 16
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01560419/ILSVRC2012_val_00012870.JPEG",
+      "synset": "n01560419",
+      "class_name": "bulbul",
+      "class_id": 16
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01580077/ILSVRC2012_val_00001508.JPEG",
+      "synset": "n01580077",
+      "class_name": "jay",
+      "class_id": 17
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01580077/ILSVRC2012_val_00043995.JPEG",
+      "synset": "n01580077",
+      "class_name": "jay",
+      "class_id": 17
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01580077/ILSVRC2012_val_00046280.JPEG",
+      "synset": "n01580077",
+      "class_name": "jay",
+      "class_id": 17
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01582220/ILSVRC2012_val_00000963.JPEG",
+      "synset": "n01582220",
+      "class_name": "magpie",
+      "class_id": 18
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01582220/ILSVRC2012_val_00046917.JPEG",
+      "synset": "n01582220",
+      "class_name": "magpie",
+      "class_id": 18
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01592084/ILSVRC2012_val_00017017.JPEG",
+      "synset": "n01592084",
+      "class_name": "chickadee",
+      "class_id": 19
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01592084/ILSVRC2012_val_00019788.JPEG",
+      "synset": "n01592084",
+      "class_name": "chickadee",
+      "class_id": 19
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01592084/ILSVRC2012_val_00035303.JPEG",
+      "synset": "n01592084",
+      "class_name": "chickadee",
+      "class_id": 19
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01592084/ILSVRC2012_val_00045568.JPEG",
+      "synset": "n01592084",
+      "class_name": "chickadee",
+      "class_id": 19
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01601694/ILSVRC2012_val_00008816.JPEG",
+      "synset": "n01601694",
+      "class_name": "water_ouzel",
+      "class_id": 20
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01601694/ILSVRC2012_val_00020730.JPEG",
+      "synset": "n01601694",
+      "class_name": "water_ouzel",
+      "class_id": 20
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01601694/ILSVRC2012_val_00031973.JPEG",
+      "synset": "n01601694",
+      "class_name": "water_ouzel",
+      "class_id": 20
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01608432/ILSVRC2012_val_00000073.JPEG",
+      "synset": "n01608432",
+      "class_name": "kite",
+      "class_id": 21
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01608432/ILSVRC2012_val_00020710.JPEG",
+      "synset": "n01608432",
+      "class_name": "kite",
+      "class_id": 21
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01608432/ILSVRC2012_val_00021056.JPEG",
+      "synset": "n01608432",
+      "class_name": "kite",
+      "class_id": 21
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01608432/ILSVRC2012_val_00045746.JPEG",
+      "synset": "n01608432",
+      "class_name": "kite",
+      "class_id": 21
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01614925/ILSVRC2012_val_00026707.JPEG",
+      "synset": "n01614925",
+      "class_name": "bald_eagle",
+      "class_id": 22
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01614925/ILSVRC2012_val_00033435.JPEG",
+      "synset": "n01614925",
+      "class_name": "bald_eagle",
+      "class_id": 22
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01614925/ILSVRC2012_val_00044921.JPEG",
+      "synset": "n01614925",
+      "class_name": "bald_eagle",
+      "class_id": 22
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01616318/ILSVRC2012_val_00018092.JPEG",
+      "synset": "n01616318",
+      "class_name": "vulture",
+      "class_id": 23
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01616318/ILSVRC2012_val_00035953.JPEG",
+      "synset": "n01616318",
+      "class_name": "vulture",
+      "class_id": 23
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01616318/ILSVRC2012_val_00037259.JPEG",
+      "synset": "n01616318",
+      "class_name": "vulture",
+      "class_id": 23
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01622779/ILSVRC2012_val_00001213.JPEG",
+      "synset": "n01622779",
+      "class_name": "great_grey_owl",
+      "class_id": 24
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01622779/ILSVRC2012_val_00003169.JPEG",
+      "synset": "n01622779",
+      "class_name": "great_grey_owl",
+      "class_id": 24
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01622779/ILSVRC2012_val_00015913.JPEG",
+      "synset": "n01622779",
+      "class_name": "great_grey_owl",
+      "class_id": 24
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01622779/ILSVRC2012_val_00018062.JPEG",
+      "synset": "n01622779",
+      "class_name": "great_grey_owl",
+      "class_id": 24
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01629819/ILSVRC2012_val_00009938.JPEG",
+      "synset": "n01629819",
+      "class_name": "European_fire_salamander",
+      "class_id": 25
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01629819/ILSVRC2012_val_00028489.JPEG",
+      "synset": "n01629819",
+      "class_name": "European_fire_salamander",
+      "class_id": 25
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01629819/ILSVRC2012_val_00049244.JPEG",
+      "synset": "n01629819",
+      "class_name": "European_fire_salamander",
+      "class_id": 25
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01630670/ILSVRC2012_val_00006582.JPEG",
+      "synset": "n01630670",
+      "class_name": "common_newt",
+      "class_id": 26
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01630670/ILSVRC2012_val_00011650.JPEG",
+      "synset": "n01630670",
+      "class_name": "common_newt",
+      "class_id": 26
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01630670/ILSVRC2012_val_00023488.JPEG",
+      "synset": "n01630670",
+      "class_name": "common_newt",
+      "class_id": 26
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01630670/ILSVRC2012_val_00038449.JPEG",
+      "synset": "n01630670",
+      "class_name": "common_newt",
+      "class_id": 26
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01631663/ILSVRC2012_val_00001728.JPEG",
+      "synset": "n01631663",
+      "class_name": "eft",
+      "class_id": 27
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01631663/ILSVRC2012_val_00011416.JPEG",
+      "synset": "n01631663",
+      "class_name": "eft",
+      "class_id": 27
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01631663/ILSVRC2012_val_00011688.JPEG",
+      "synset": "n01631663",
+      "class_name": "eft",
+      "class_id": 27
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01631663/ILSVRC2012_val_00023450.JPEG",
+      "synset": "n01631663",
+      "class_name": "eft",
+      "class_id": 27
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632458/ILSVRC2012_val_00001131.JPEG",
+      "synset": "n01632458",
+      "class_name": "spotted_salamander",
+      "class_id": 28
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632458/ILSVRC2012_val_00023080.JPEG",
+      "synset": "n01632458",
+      "class_name": "spotted_salamander",
+      "class_id": 28
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632458/ILSVRC2012_val_00025492.JPEG",
+      "synset": "n01632458",
+      "class_name": "spotted_salamander",
+      "class_id": 28
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632458/ILSVRC2012_val_00026813.JPEG",
+      "synset": "n01632458",
+      "class_name": "spotted_salamander",
+      "class_id": 28
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632777/ILSVRC2012_val_00035654.JPEG",
+      "synset": "n01632777",
+      "class_name": "axolotl",
+      "class_id": 29
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01632777/ILSVRC2012_val_00045924.JPEG",
+      "synset": "n01632777",
+      "class_name": "axolotl",
+      "class_id": 29
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01641577/ILSVRC2012_val_00028352.JPEG",
+      "synset": "n01641577",
+      "class_name": "bullfrog",
+      "class_id": 30
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01641577/ILSVRC2012_val_00032916.JPEG",
+      "synset": "n01641577",
+      "class_name": "bullfrog",
+      "class_id": 30
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01641577/ILSVRC2012_val_00033960.JPEG",
+      "synset": "n01641577",
+      "class_name": "bullfrog",
+      "class_id": 30
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644373/ILSVRC2012_val_00007574.JPEG",
+      "synset": "n01644373",
+      "class_name": "tree_frog",
+      "class_id": 31
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644373/ILSVRC2012_val_00017882.JPEG",
+      "synset": "n01644373",
+      "class_name": "tree_frog",
+      "class_id": 31
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644373/ILSVRC2012_val_00033702.JPEG",
+      "synset": "n01644373",
+      "class_name": "tree_frog",
+      "class_id": 31
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644373/ILSVRC2012_val_00036066.JPEG",
+      "synset": "n01644373",
+      "class_name": "tree_frog",
+      "class_id": 31
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644900/ILSVRC2012_val_00010593.JPEG",
+      "synset": "n01644900",
+      "class_name": "tailed_frog",
+      "class_id": 32
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644900/ILSVRC2012_val_00016934.JPEG",
+      "synset": "n01644900",
+      "class_name": "tailed_frog",
+      "class_id": 32
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644900/ILSVRC2012_val_00021776.JPEG",
+      "synset": "n01644900",
+      "class_name": "tailed_frog",
+      "class_id": 32
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644900/ILSVRC2012_val_00024102.JPEG",
+      "synset": "n01644900",
+      "class_name": "tailed_frog",
+      "class_id": 32
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01644900/ILSVRC2012_val_00036722.JPEG",
+      "synset": "n01644900",
+      "class_name": "tailed_frog",
+      "class_id": 32
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01664065/ILSVRC2012_val_00014352.JPEG",
+      "synset": "n01664065",
+      "class_name": "loggerhead",
+      "class_id": 33
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01664065/ILSVRC2012_val_00031829.JPEG",
+      "synset": "n01664065",
+      "class_name": "loggerhead",
+      "class_id": 33
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01664065/ILSVRC2012_val_00042216.JPEG",
+      "synset": "n01664065",
+      "class_name": "loggerhead",
+      "class_id": 33
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01665541/ILSVRC2012_val_00020907.JPEG",
+      "synset": "n01665541",
+      "class_name": "leatherback_turtle",
+      "class_id": 34
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01665541/ILSVRC2012_val_00038140.JPEG",
+      "synset": "n01665541",
+      "class_name": "leatherback_turtle",
+      "class_id": 34
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01665541/ILSVRC2012_val_00044755.JPEG",
+      "synset": "n01665541",
+      "class_name": "leatherback_turtle",
+      "class_id": 34
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667114/ILSVRC2012_val_00000229.JPEG",
+      "synset": "n01667114",
+      "class_name": "mud_turtle",
+      "class_id": 35
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667114/ILSVRC2012_val_00004897.JPEG",
+      "synset": "n01667114",
+      "class_name": "mud_turtle",
+      "class_id": 35
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667114/ILSVRC2012_val_00012732.JPEG",
+      "synset": "n01667114",
+      "class_name": "mud_turtle",
+      "class_id": 35
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667114/ILSVRC2012_val_00026446.JPEG",
+      "synset": "n01667114",
+      "class_name": "mud_turtle",
+      "class_id": 35
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667778/ILSVRC2012_val_00006634.JPEG",
+      "synset": "n01667778",
+      "class_name": "terrapin",
+      "class_id": 36
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667778/ILSVRC2012_val_00009819.JPEG",
+      "synset": "n01667778",
+      "class_name": "terrapin",
+      "class_id": 36
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667778/ILSVRC2012_val_00025611.JPEG",
+      "synset": "n01667778",
+      "class_name": "terrapin",
+      "class_id": 36
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01667778/ILSVRC2012_val_00042023.JPEG",
+      "synset": "n01667778",
+      "class_name": "terrapin",
+      "class_id": 36
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01669191/ILSVRC2012_val_00031467.JPEG",
+      "synset": "n01669191",
+      "class_name": "box_turtle",
+      "class_id": 37
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01669191/ILSVRC2012_val_00037560.JPEG",
+      "synset": "n01669191",
+      "class_name": "box_turtle",
+      "class_id": 37
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01675722/ILSVRC2012_val_00008226.JPEG",
+      "synset": "n01675722",
+      "class_name": "banded_gecko",
+      "class_id": 38
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01675722/ILSVRC2012_val_00024545.JPEG",
+      "synset": "n01675722",
+      "class_name": "banded_gecko",
+      "class_id": 38
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01675722/ILSVRC2012_val_00027776.JPEG",
+      "synset": "n01675722",
+      "class_name": "banded_gecko",
+      "class_id": 38
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01675722/ILSVRC2012_val_00046185.JPEG",
+      "synset": "n01675722",
+      "class_name": "banded_gecko",
+      "class_id": 38
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01677366/ILSVRC2012_val_00010171.JPEG",
+      "synset": "n01677366",
+      "class_name": "common_iguana",
+      "class_id": 39
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01677366/ILSVRC2012_val_00033961.JPEG",
+      "synset": "n01677366",
+      "class_name": "common_iguana",
+      "class_id": 39
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01677366/ILSVRC2012_val_00046740.JPEG",
+      "synset": "n01677366",
+      "class_name": "common_iguana",
+      "class_id": 39
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01682714/ILSVRC2012_val_00011129.JPEG",
+      "synset": "n01682714",
+      "class_name": "American_chameleon",
+      "class_id": 40
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01682714/ILSVRC2012_val_00028042.JPEG",
+      "synset": "n01682714",
+      "class_name": "American_chameleon",
+      "class_id": 40
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01682714/ILSVRC2012_val_00037273.JPEG",
+      "synset": "n01682714",
+      "class_name": "American_chameleon",
+      "class_id": 40
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01682714/ILSVRC2012_val_00041659.JPEG",
+      "synset": "n01682714",
+      "class_name": "American_chameleon",
+      "class_id": 40
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01685808/ILSVRC2012_val_00005590.JPEG",
+      "synset": "n01685808",
+      "class_name": "whiptail",
+      "class_id": 41
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01685808/ILSVRC2012_val_00039384.JPEG",
+      "synset": "n01685808",
+      "class_name": "whiptail",
+      "class_id": 41
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01685808/ILSVRC2012_val_00042079.JPEG",
+      "synset": "n01685808",
+      "class_name": "whiptail",
+      "class_id": 41
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01687978/ILSVRC2012_val_00021582.JPEG",
+      "synset": "n01687978",
+      "class_name": "agama",
+      "class_id": 42
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01687978/ILSVRC2012_val_00030918.JPEG",
+      "synset": "n01687978",
+      "class_name": "agama",
+      "class_id": 42
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01687978/ILSVRC2012_val_00037510.JPEG",
+      "synset": "n01687978",
+      "class_name": "agama",
+      "class_id": 42
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01687978/ILSVRC2012_val_00041169.JPEG",
+      "synset": "n01687978",
+      "class_name": "agama",
+      "class_id": 42
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01688243/ILSVRC2012_val_00002295.JPEG",
+      "synset": "n01688243",
+      "class_name": "frilled_lizard",
+      "class_id": 43
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01688243/ILSVRC2012_val_00039831.JPEG",
+      "synset": "n01688243",
+      "class_name": "frilled_lizard",
+      "class_id": 43
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01688243/ILSVRC2012_val_00044980.JPEG",
+      "synset": "n01688243",
+      "class_name": "frilled_lizard",
+      "class_id": 43
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01689811/ILSVRC2012_val_00016357.JPEG",
+      "synset": "n01689811",
+      "class_name": "alligator_lizard",
+      "class_id": 44
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01689811/ILSVRC2012_val_00038667.JPEG",
+      "synset": "n01689811",
+      "class_name": "alligator_lizard",
+      "class_id": 44
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01689811/ILSVRC2012_val_00043624.JPEG",
+      "synset": "n01689811",
+      "class_name": "alligator_lizard",
+      "class_id": 44
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01692333/ILSVRC2012_val_00025104.JPEG",
+      "synset": "n01692333",
+      "class_name": "Gila_monster",
+      "class_id": 45
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01692333/ILSVRC2012_val_00031550.JPEG",
+      "synset": "n01692333",
+      "class_name": "Gila_monster",
+      "class_id": 45
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01692333/ILSVRC2012_val_00037324.JPEG",
+      "synset": "n01692333",
+      "class_name": "Gila_monster",
+      "class_id": 45
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01693334/ILSVRC2012_val_00018857.JPEG",
+      "synset": "n01693334",
+      "class_name": "green_lizard",
+      "class_id": 46
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01693334/ILSVRC2012_val_00025809.JPEG",
+      "synset": "n01693334",
+      "class_name": "green_lizard",
+      "class_id": 46
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01694178/ILSVRC2012_val_00008570.JPEG",
+      "synset": "n01694178",
+      "class_name": "African_chameleon",
+      "class_id": 47
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01694178/ILSVRC2012_val_00015831.JPEG",
+      "synset": "n01694178",
+      "class_name": "African_chameleon",
+      "class_id": 47
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01694178/ILSVRC2012_val_00017926.JPEG",
+      "synset": "n01694178",
+      "class_name": "African_chameleon",
+      "class_id": 47
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01694178/ILSVRC2012_val_00032934.JPEG",
+      "synset": "n01694178",
+      "class_name": "African_chameleon",
+      "class_id": 47
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01695060/ILSVRC2012_val_00008095.JPEG",
+      "synset": "n01695060",
+      "class_name": "Komodo_dragon",
+      "class_id": 48
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01695060/ILSVRC2012_val_00017497.JPEG",
+      "synset": "n01695060",
+      "class_name": "Komodo_dragon",
+      "class_id": 48
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01695060/ILSVRC2012_val_00034125.JPEG",
+      "synset": "n01695060",
+      "class_name": "Komodo_dragon",
+      "class_id": 48
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01697457/ILSVRC2012_val_00005815.JPEG",
+      "synset": "n01697457",
+      "class_name": "African_crocodile",
+      "class_id": 49
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01697457/ILSVRC2012_val_00008469.JPEG",
+      "synset": "n01697457",
+      "class_name": "African_crocodile",
+      "class_id": 49
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01697457/ILSVRC2012_val_00010904.JPEG",
+      "synset": "n01697457",
+      "class_name": "African_crocodile",
+      "class_id": 49
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01698640/ILSVRC2012_val_00001338.JPEG",
+      "synset": "n01698640",
+      "class_name": "American_alligator",
+      "class_id": 50
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01698640/ILSVRC2012_val_00004106.JPEG",
+      "synset": "n01698640",
+      "class_name": "American_alligator",
+      "class_id": 50
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01698640/ILSVRC2012_val_00004402.JPEG",
+      "synset": "n01698640",
+      "class_name": "American_alligator",
+      "class_id": 50
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01704323/ILSVRC2012_val_00017572.JPEG",
+      "synset": "n01704323",
+      "class_name": "triceratops",
+      "class_id": 51
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01704323/ILSVRC2012_val_00017962.JPEG",
+      "synset": "n01704323",
+      "class_name": "triceratops",
+      "class_id": 51
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01704323/ILSVRC2012_val_00019894.JPEG",
+      "synset": "n01704323",
+      "class_name": "triceratops",
+      "class_id": 51
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01704323/ILSVRC2012_val_00020061.JPEG",
+      "synset": "n01704323",
+      "class_name": "triceratops",
+      "class_id": 51
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728572/ILSVRC2012_val_00016737.JPEG",
+      "synset": "n01728572",
+      "class_name": "thunder_snake",
+      "class_id": 52
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728572/ILSVRC2012_val_00020383.JPEG",
+      "synset": "n01728572",
+      "class_name": "thunder_snake",
+      "class_id": 52
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728572/ILSVRC2012_val_00022901.JPEG",
+      "synset": "n01728572",
+      "class_name": "thunder_snake",
+      "class_id": 52
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728572/ILSVRC2012_val_00042100.JPEG",
+      "synset": "n01728572",
+      "class_name": "thunder_snake",
+      "class_id": 52
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728920/ILSVRC2012_val_00007719.JPEG",
+      "synset": "n01728920",
+      "class_name": "ringneck_snake",
+      "class_id": 53
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728920/ILSVRC2012_val_00019966.JPEG",
+      "synset": "n01728920",
+      "class_name": "ringneck_snake",
+      "class_id": 53
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728920/ILSVRC2012_val_00020274.JPEG",
+      "synset": "n01728920",
+      "class_name": "ringneck_snake",
+      "class_id": 53
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01728920/ILSVRC2012_val_00046516.JPEG",
+      "synset": "n01728920",
+      "class_name": "ringneck_snake",
+      "class_id": 53
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729322/ILSVRC2012_val_00003071.JPEG",
+      "synset": "n01729322",
+      "class_name": "hognose_snake",
+      "class_id": 54
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729322/ILSVRC2012_val_00011295.JPEG",
+      "synset": "n01729322",
+      "class_name": "hognose_snake",
+      "class_id": 54
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729322/ILSVRC2012_val_00017346.JPEG",
+      "synset": "n01729322",
+      "class_name": "hognose_snake",
+      "class_id": 54
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729322/ILSVRC2012_val_00044534.JPEG",
+      "synset": "n01729322",
+      "class_name": "hognose_snake",
+      "class_id": 54
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729977/ILSVRC2012_val_00000029.JPEG",
+      "synset": "n01729977",
+      "class_name": "green_snake",
+      "class_id": 55
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729977/ILSVRC2012_val_00007710.JPEG",
+      "synset": "n01729977",
+      "class_name": "green_snake",
+      "class_id": 55
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01729977/ILSVRC2012_val_00048574.JPEG",
+      "synset": "n01729977",
+      "class_name": "green_snake",
+      "class_id": 55
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01734418/ILSVRC2012_val_00000512.JPEG",
+      "synset": "n01734418",
+      "class_name": "king_snake",
+      "class_id": 56
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01734418/ILSVRC2012_val_00012578.JPEG",
+      "synset": "n01734418",
+      "class_name": "king_snake",
+      "class_id": 56
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01734418/ILSVRC2012_val_00021974.JPEG",
+      "synset": "n01734418",
+      "class_name": "king_snake",
+      "class_id": 56
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01735189/ILSVRC2012_val_00034251.JPEG",
+      "synset": "n01735189",
+      "class_name": "garter_snake",
+      "class_id": 57
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01735189/ILSVRC2012_val_00045256.JPEG",
+      "synset": "n01735189",
+      "class_name": "garter_snake",
+      "class_id": 57
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01737021/ILSVRC2012_val_00011483.JPEG",
+      "synset": "n01737021",
+      "class_name": "water_snake",
+      "class_id": 58
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01737021/ILSVRC2012_val_00021332.JPEG",
+      "synset": "n01737021",
+      "class_name": "water_snake",
+      "class_id": 58
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01737021/ILSVRC2012_val_00028861.JPEG",
+      "synset": "n01737021",
+      "class_name": "water_snake",
+      "class_id": 58
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01739381/ILSVRC2012_val_00015794.JPEG",
+      "synset": "n01739381",
+      "class_name": "vine_snake",
+      "class_id": 59
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01739381/ILSVRC2012_val_00016124.JPEG",
+      "synset": "n01739381",
+      "class_name": "vine_snake",
+      "class_id": 59
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01739381/ILSVRC2012_val_00018204.JPEG",
+      "synset": "n01739381",
+      "class_name": "vine_snake",
+      "class_id": 59
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01740131/ILSVRC2012_val_00002505.JPEG",
+      "synset": "n01740131",
+      "class_name": "night_snake",
+      "class_id": 60
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01740131/ILSVRC2012_val_00011034.JPEG",
+      "synset": "n01740131",
+      "class_name": "night_snake",
+      "class_id": 60
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01740131/ILSVRC2012_val_00027330.JPEG",
+      "synset": "n01740131",
+      "class_name": "night_snake",
+      "class_id": 60
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01740131/ILSVRC2012_val_00033547.JPEG",
+      "synset": "n01740131",
+      "class_name": "night_snake",
+      "class_id": 60
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01742172/ILSVRC2012_val_00031608.JPEG",
+      "synset": "n01742172",
+      "class_name": "boa_constrictor",
+      "class_id": 61
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01742172/ILSVRC2012_val_00038304.JPEG",
+      "synset": "n01742172",
+      "class_name": "boa_constrictor",
+      "class_id": 61
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01742172/ILSVRC2012_val_00045042.JPEG",
+      "synset": "n01742172",
+      "class_name": "boa_constrictor",
+      "class_id": 61
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01742172/ILSVRC2012_val_00046778.JPEG",
+      "synset": "n01742172",
+      "class_name": "boa_constrictor",
+      "class_id": 61
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01744401/ILSVRC2012_val_00000688.JPEG",
+      "synset": "n01744401",
+      "class_name": "rock_python",
+      "class_id": 62
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01744401/ILSVRC2012_val_00020861.JPEG",
+      "synset": "n01744401",
+      "class_name": "rock_python",
+      "class_id": 62
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01744401/ILSVRC2012_val_00028743.JPEG",
+      "synset": "n01744401",
+      "class_name": "rock_python",
+      "class_id": 62
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01744401/ILSVRC2012_val_00032663.JPEG",
+      "synset": "n01744401",
+      "class_name": "rock_python",
+      "class_id": 62
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01748264/ILSVRC2012_val_00003143.JPEG",
+      "synset": "n01748264",
+      "class_name": "Indian_cobra",
+      "class_id": 63
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01748264/ILSVRC2012_val_00014457.JPEG",
+      "synset": "n01748264",
+      "class_name": "Indian_cobra",
+      "class_id": 63
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01748264/ILSVRC2012_val_00021130.JPEG",
+      "synset": "n01748264",
+      "class_name": "Indian_cobra",
+      "class_id": 63
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01748264/ILSVRC2012_val_00030303.JPEG",
+      "synset": "n01748264",
+      "class_name": "Indian_cobra",
+      "class_id": 63
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01748264/ILSVRC2012_val_00042111.JPEG",
+      "synset": "n01748264",
+      "class_name": "Indian_cobra",
+      "class_id": 63
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01749939/ILSVRC2012_val_00021593.JPEG",
+      "synset": "n01749939",
+      "class_name": "green_mamba",
+      "class_id": 64
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01749939/ILSVRC2012_val_00022436.JPEG",
+      "synset": "n01749939",
+      "class_name": "green_mamba",
+      "class_id": 64
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01749939/ILSVRC2012_val_00039780.JPEG",
+      "synset": "n01749939",
+      "class_name": "green_mamba",
+      "class_id": 64
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01749939/ILSVRC2012_val_00041931.JPEG",
+      "synset": "n01749939",
+      "class_name": "green_mamba",
+      "class_id": 64
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01751748/ILSVRC2012_val_00033903.JPEG",
+      "synset": "n01751748",
+      "class_name": "sea_snake",
+      "class_id": 65
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01751748/ILSVRC2012_val_00043075.JPEG",
+      "synset": "n01751748",
+      "class_name": "sea_snake",
+      "class_id": 65
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01751748/ILSVRC2012_val_00049933.JPEG",
+      "synset": "n01751748",
+      "class_name": "sea_snake",
+      "class_id": 65
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01753488/ILSVRC2012_val_00014116.JPEG",
+      "synset": "n01753488",
+      "class_name": "horned_viper",
+      "class_id": 66
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01753488/ILSVRC2012_val_00017531.JPEG",
+      "synset": "n01753488",
+      "class_name": "horned_viper",
+      "class_id": 66
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01753488/ILSVRC2012_val_00031311.JPEG",
+      "synset": "n01753488",
+      "class_name": "horned_viper",
+      "class_id": 66
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01755581/ILSVRC2012_val_00016905.JPEG",
+      "synset": "n01755581",
+      "class_name": "diamondback",
+      "class_id": 67
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01755581/ILSVRC2012_val_00038068.JPEG",
+      "synset": "n01755581",
+      "class_name": "diamondback",
+      "class_id": 67
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01755581/ILSVRC2012_val_00045418.JPEG",
+      "synset": "n01755581",
+      "class_name": "diamondback",
+      "class_id": 67
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01756291/ILSVRC2012_val_00010465.JPEG",
+      "synset": "n01756291",
+      "class_name": "sidewinder",
+      "class_id": 68
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01756291/ILSVRC2012_val_00018563.JPEG",
+      "synset": "n01756291",
+      "class_name": "sidewinder",
+      "class_id": 68
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01756291/ILSVRC2012_val_00020569.JPEG",
+      "synset": "n01756291",
+      "class_name": "sidewinder",
+      "class_id": 68
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01768244/ILSVRC2012_val_00003421.JPEG",
+      "synset": "n01768244",
+      "class_name": "trilobite",
+      "class_id": 69
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01768244/ILSVRC2012_val_00005828.JPEG",
+      "synset": "n01768244",
+      "class_name": "trilobite",
+      "class_id": 69
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01768244/ILSVRC2012_val_00015154.JPEG",
+      "synset": "n01768244",
+      "class_name": "trilobite",
+      "class_id": 69
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01768244/ILSVRC2012_val_00026903.JPEG",
+      "synset": "n01768244",
+      "class_name": "trilobite",
+      "class_id": 69
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01770081/ILSVRC2012_val_00016318.JPEG",
+      "synset": "n01770081",
+      "class_name": "harvestman",
+      "class_id": 70
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01770081/ILSVRC2012_val_00016507.JPEG",
+      "synset": "n01770081",
+      "class_name": "harvestman",
+      "class_id": 70
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01770081/ILSVRC2012_val_00017153.JPEG",
+      "synset": "n01770081",
+      "class_name": "harvestman",
+      "class_id": 70
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01770081/ILSVRC2012_val_00030649.JPEG",
+      "synset": "n01770081",
+      "class_name": "harvestman",
+      "class_id": 70
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01770393/ILSVRC2012_val_00032644.JPEG",
+      "synset": "n01770393",
+      "class_name": "scorpion",
+      "class_id": 71
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773157/ILSVRC2012_val_00008960.JPEG",
+      "synset": "n01773157",
+      "class_name": "black_and_gold_garden_spider",
+      "class_id": 72
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773157/ILSVRC2012_val_00022156.JPEG",
+      "synset": "n01773157",
+      "class_name": "black_and_gold_garden_spider",
+      "class_id": 72
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773157/ILSVRC2012_val_00039799.JPEG",
+      "synset": "n01773157",
+      "class_name": "black_and_gold_garden_spider",
+      "class_id": 72
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773157/ILSVRC2012_val_00042786.JPEG",
+      "synset": "n01773157",
+      "class_name": "black_and_gold_garden_spider",
+      "class_id": 72
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773157/ILSVRC2012_val_00043063.JPEG",
+      "synset": "n01773157",
+      "class_name": "black_and_gold_garden_spider",
+      "class_id": 72
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773549/ILSVRC2012_val_00034665.JPEG",
+      "synset": "n01773549",
+      "class_name": "barn_spider",
+      "class_id": 73
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773797/ILSVRC2012_val_00012707.JPEG",
+      "synset": "n01773797",
+      "class_name": "garden_spider",
+      "class_id": 74
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773797/ILSVRC2012_val_00023464.JPEG",
+      "synset": "n01773797",
+      "class_name": "garden_spider",
+      "class_id": 74
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773797/ILSVRC2012_val_00026030.JPEG",
+      "synset": "n01773797",
+      "class_name": "garden_spider",
+      "class_id": 74
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01773797/ILSVRC2012_val_00026600.JPEG",
+      "synset": "n01773797",
+      "class_name": "garden_spider",
+      "class_id": 74
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774384/ILSVRC2012_val_00025455.JPEG",
+      "synset": "n01774384",
+      "class_name": "black_widow",
+      "class_id": 75
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774384/ILSVRC2012_val_00029029.JPEG",
+      "synset": "n01774384",
+      "class_name": "black_widow",
+      "class_id": 75
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774384/ILSVRC2012_val_00048068.JPEG",
+      "synset": "n01774384",
+      "class_name": "black_widow",
+      "class_id": 75
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774750/ILSVRC2012_val_00035080.JPEG",
+      "synset": "n01774750",
+      "class_name": "tarantula",
+      "class_id": 76
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774750/ILSVRC2012_val_00037576.JPEG",
+      "synset": "n01774750",
+      "class_name": "tarantula",
+      "class_id": 76
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01774750/ILSVRC2012_val_00041311.JPEG",
+      "synset": "n01774750",
+      "class_name": "tarantula",
+      "class_id": 76
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01775062/ILSVRC2012_val_00015835.JPEG",
+      "synset": "n01775062",
+      "class_name": "wolf_spider",
+      "class_id": 77
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01775062/ILSVRC2012_val_00026848.JPEG",
+      "synset": "n01775062",
+      "class_name": "wolf_spider",
+      "class_id": 77
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01775062/ILSVRC2012_val_00048649.JPEG",
+      "synset": "n01775062",
+      "class_name": "wolf_spider",
+      "class_id": 77
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00000679.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00001766.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00005788.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00007065.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00014587.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00016227.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00023564.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00032783.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00035573.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00042899.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01776313/ILSVRC2012_val_00046868.JPEG",
+      "synset": "n01776313",
+      "class_name": "tick",
+      "class_id": 78
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01784675/ILSVRC2012_val_00005536.JPEG",
+      "synset": "n01784675",
+      "class_name": "centipede",
+      "class_id": 79
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01784675/ILSVRC2012_val_00020046.JPEG",
+      "synset": "n01784675",
+      "class_name": "centipede",
+      "class_id": 79
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01784675/ILSVRC2012_val_00040763.JPEG",
+      "synset": "n01784675",
+      "class_name": "centipede",
+      "class_id": 79
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01784675/ILSVRC2012_val_00044649.JPEG",
+      "synset": "n01784675",
+      "class_name": "centipede",
+      "class_id": 79
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01795545/ILSVRC2012_val_00007126.JPEG",
+      "synset": "n01795545",
+      "class_name": "black_grouse",
+      "class_id": 80
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01795545/ILSVRC2012_val_00007323.JPEG",
+      "synset": "n01795545",
+      "class_name": "black_grouse",
+      "class_id": 80
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01795545/ILSVRC2012_val_00047404.JPEG",
+      "synset": "n01795545",
+      "class_name": "black_grouse",
+      "class_id": 80
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01796340/ILSVRC2012_val_00006847.JPEG",
+      "synset": "n01796340",
+      "class_name": "ptarmigan",
+      "class_id": 81
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01796340/ILSVRC2012_val_00031432.JPEG",
+      "synset": "n01796340",
+      "class_name": "ptarmigan",
+      "class_id": 81
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01796340/ILSVRC2012_val_00045392.JPEG",
+      "synset": "n01796340",
+      "class_name": "ptarmigan",
+      "class_id": 81
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01796340/ILSVRC2012_val_00046574.JPEG",
+      "synset": "n01796340",
+      "class_name": "ptarmigan",
+      "class_id": 81
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01797886/ILSVRC2012_val_00019885.JPEG",
+      "synset": "n01797886",
+      "class_name": "ruffed_grouse",
+      "class_id": 82
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01797886/ILSVRC2012_val_00021417.JPEG",
+      "synset": "n01797886",
+      "class_name": "ruffed_grouse",
+      "class_id": 82
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01798484/ILSVRC2012_val_00002395.JPEG",
+      "synset": "n01798484",
+      "class_name": "prairie_chicken",
+      "class_id": 83
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01798484/ILSVRC2012_val_00020239.JPEG",
+      "synset": "n01798484",
+      "class_name": "prairie_chicken",
+      "class_id": 83
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01798484/ILSVRC2012_val_00049203.JPEG",
+      "synset": "n01798484",
+      "class_name": "prairie_chicken",
+      "class_id": 83
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806143/ILSVRC2012_val_00022422.JPEG",
+      "synset": "n01806143",
+      "class_name": "peacock",
+      "class_id": 84
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806143/ILSVRC2012_val_00030028.JPEG",
+      "synset": "n01806143",
+      "class_name": "peacock",
+      "class_id": 84
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806143/ILSVRC2012_val_00038324.JPEG",
+      "synset": "n01806143",
+      "class_name": "peacock",
+      "class_id": 84
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806567/ILSVRC2012_val_00013364.JPEG",
+      "synset": "n01806567",
+      "class_name": "quail",
+      "class_id": 85
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806567/ILSVRC2012_val_00033162.JPEG",
+      "synset": "n01806567",
+      "class_name": "quail",
+      "class_id": 85
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01806567/ILSVRC2012_val_00046089.JPEG",
+      "synset": "n01806567",
+      "class_name": "quail",
+      "class_id": 85
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01807496/ILSVRC2012_val_00035476.JPEG",
+      "synset": "n01807496",
+      "class_name": "partridge",
+      "class_id": 86
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01807496/ILSVRC2012_val_00036675.JPEG",
+      "synset": "n01807496",
+      "class_name": "partridge",
+      "class_id": 86
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01807496/ILSVRC2012_val_00039412.JPEG",
+      "synset": "n01807496",
+      "class_name": "partridge",
+      "class_id": 86
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01817953/ILSVRC2012_val_00002791.JPEG",
+      "synset": "n01817953",
+      "class_name": "African_grey",
+      "class_id": 87
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01817953/ILSVRC2012_val_00009194.JPEG",
+      "synset": "n01817953",
+      "class_name": "African_grey",
+      "class_id": 87
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01817953/ILSVRC2012_val_00038169.JPEG",
+      "synset": "n01817953",
+      "class_name": "African_grey",
+      "class_id": 87
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01818515/ILSVRC2012_val_00003823.JPEG",
+      "synset": "n01818515",
+      "class_name": "macaw",
+      "class_id": 88
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01818515/ILSVRC2012_val_00007081.JPEG",
+      "synset": "n01818515",
+      "class_name": "macaw",
+      "class_id": 88
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01818515/ILSVRC2012_val_00027656.JPEG",
+      "synset": "n01818515",
+      "class_name": "macaw",
+      "class_id": 88
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01819313/ILSVRC2012_val_00013521.JPEG",
+      "synset": "n01819313",
+      "class_name": "sulphur-crested_cockatoo",
+      "class_id": 89
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01819313/ILSVRC2012_val_00023118.JPEG",
+      "synset": "n01819313",
+      "class_name": "sulphur-crested_cockatoo",
+      "class_id": 89
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01819313/ILSVRC2012_val_00028007.JPEG",
+      "synset": "n01819313",
+      "class_name": "sulphur-crested_cockatoo",
+      "class_id": 89
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01819313/ILSVRC2012_val_00045408.JPEG",
+      "synset": "n01819313",
+      "class_name": "sulphur-crested_cockatoo",
+      "class_id": 89
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01820546/ILSVRC2012_val_00015713.JPEG",
+      "synset": "n01820546",
+      "class_name": "lorikeet",
+      "class_id": 90
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01820546/ILSVRC2012_val_00029654.JPEG",
+      "synset": "n01820546",
+      "class_name": "lorikeet",
+      "class_id": 90
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01820546/ILSVRC2012_val_00037672.JPEG",
+      "synset": "n01820546",
+      "class_name": "lorikeet",
+      "class_id": 90
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01820546/ILSVRC2012_val_00044440.JPEG",
+      "synset": "n01820546",
+      "class_name": "lorikeet",
+      "class_id": 90
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01824575/ILSVRC2012_val_00004340.JPEG",
+      "synset": "n01824575",
+      "class_name": "coucal",
+      "class_id": 91
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01824575/ILSVRC2012_val_00009419.JPEG",
+      "synset": "n01824575",
+      "class_name": "coucal",
+      "class_id": 91
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01824575/ILSVRC2012_val_00027555.JPEG",
+      "synset": "n01824575",
+      "class_name": "coucal",
+      "class_id": 91
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01828970/ILSVRC2012_val_00005634.JPEG",
+      "synset": "n01828970",
+      "class_name": "bee_eater",
+      "class_id": 92
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01828970/ILSVRC2012_val_00009536.JPEG",
+      "synset": "n01828970",
+      "class_name": "bee_eater",
+      "class_id": 92
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01828970/ILSVRC2012_val_00037031.JPEG",
+      "synset": "n01828970",
+      "class_name": "bee_eater",
+      "class_id": 92
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01828970/ILSVRC2012_val_00048155.JPEG",
+      "synset": "n01828970",
+      "class_name": "bee_eater",
+      "class_id": 92
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01829413/ILSVRC2012_val_00038476.JPEG",
+      "synset": "n01829413",
+      "class_name": "hornbill",
+      "class_id": 93
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01829413/ILSVRC2012_val_00043635.JPEG",
+      "synset": "n01829413",
+      "class_name": "hornbill",
+      "class_id": 93
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01829413/ILSVRC2012_val_00044209.JPEG",
+      "synset": "n01829413",
+      "class_name": "hornbill",
+      "class_id": 93
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01833805/ILSVRC2012_val_00013085.JPEG",
+      "synset": "n01833805",
+      "class_name": "hummingbird",
+      "class_id": 94
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01833805/ILSVRC2012_val_00023796.JPEG",
+      "synset": "n01833805",
+      "class_name": "hummingbird",
+      "class_id": 94
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01833805/ILSVRC2012_val_00025449.JPEG",
+      "synset": "n01833805",
+      "class_name": "hummingbird",
+      "class_id": 94
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01833805/ILSVRC2012_val_00037471.JPEG",
+      "synset": "n01833805",
+      "class_name": "hummingbird",
+      "class_id": 94
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843065/ILSVRC2012_val_00025616.JPEG",
+      "synset": "n01843065",
+      "class_name": "jacamar",
+      "class_id": 95
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843065/ILSVRC2012_val_00033977.JPEG",
+      "synset": "n01843065",
+      "class_name": "jacamar",
+      "class_id": 95
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843065/ILSVRC2012_val_00039281.JPEG",
+      "synset": "n01843065",
+      "class_name": "jacamar",
+      "class_id": 95
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843065/ILSVRC2012_val_00039463.JPEG",
+      "synset": "n01843065",
+      "class_name": "jacamar",
+      "class_id": 95
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843383/ILSVRC2012_val_00014068.JPEG",
+      "synset": "n01843383",
+      "class_name": "toucan",
+      "class_id": 96
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843383/ILSVRC2012_val_00035274.JPEG",
+      "synset": "n01843383",
+      "class_name": "toucan",
+      "class_id": 96
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01843383/ILSVRC2012_val_00037244.JPEG",
+      "synset": "n01843383",
+      "class_name": "toucan",
+      "class_id": 96
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01847000/ILSVRC2012_val_00011584.JPEG",
+      "synset": "n01847000",
+      "class_name": "drake",
+      "class_id": 97
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01847000/ILSVRC2012_val_00014416.JPEG",
+      "synset": "n01847000",
+      "class_name": "drake",
+      "class_id": 97
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01847000/ILSVRC2012_val_00035054.JPEG",
+      "synset": "n01847000",
+      "class_name": "drake",
+      "class_id": 97
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855032/ILSVRC2012_val_00002309.JPEG",
+      "synset": "n01855032",
+      "class_name": "red-breasted_merganser",
+      "class_id": 98
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855032/ILSVRC2012_val_00011488.JPEG",
+      "synset": "n01855032",
+      "class_name": "red-breasted_merganser",
+      "class_id": 98
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855032/ILSVRC2012_val_00026967.JPEG",
+      "synset": "n01855032",
+      "class_name": "red-breasted_merganser",
+      "class_id": 98
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855032/ILSVRC2012_val_00037149.JPEG",
+      "synset": "n01855032",
+      "class_name": "red-breasted_merganser",
+      "class_id": 98
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855672/ILSVRC2012_val_00009610.JPEG",
+      "synset": "n01855672",
+      "class_name": "goose",
+      "class_id": 99
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855672/ILSVRC2012_val_00033257.JPEG",
+      "synset": "n01855672",
+      "class_name": "goose",
+      "class_id": 99
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01855672/ILSVRC2012_val_00047073.JPEG",
+      "synset": "n01855672",
+      "class_name": "goose",
+      "class_id": 99
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01860187/ILSVRC2012_val_00010035.JPEG",
+      "synset": "n01860187",
+      "class_name": "black_swan",
+      "class_id": 100
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01860187/ILSVRC2012_val_00017441.JPEG",
+      "synset": "n01860187",
+      "class_name": "black_swan",
+      "class_id": 100
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01860187/ILSVRC2012_val_00017931.JPEG",
+      "synset": "n01860187",
+      "class_name": "black_swan",
+      "class_id": 100
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01860187/ILSVRC2012_val_00027816.JPEG",
+      "synset": "n01860187",
+      "class_name": "black_swan",
+      "class_id": 100
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01871265/ILSVRC2012_val_00021170.JPEG",
+      "synset": "n01871265",
+      "class_name": "tusker",
+      "class_id": 101
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01871265/ILSVRC2012_val_00033331.JPEG",
+      "synset": "n01871265",
+      "class_name": "tusker",
+      "class_id": 101
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01871265/ILSVRC2012_val_00041516.JPEG",
+      "synset": "n01871265",
+      "class_name": "tusker",
+      "class_id": 101
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01872401/ILSVRC2012_val_00039058.JPEG",
+      "synset": "n01872401",
+      "class_name": "echidna",
+      "class_id": 102
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01872401/ILSVRC2012_val_00047972.JPEG",
+      "synset": "n01872401",
+      "class_name": "echidna",
+      "class_id": 102
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01873310/ILSVRC2012_val_00007800.JPEG",
+      "synset": "n01873310",
+      "class_name": "platypus",
+      "class_id": 103
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01873310/ILSVRC2012_val_00008907.JPEG",
+      "synset": "n01873310",
+      "class_name": "platypus",
+      "class_id": 103
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01873310/ILSVRC2012_val_00011130.JPEG",
+      "synset": "n01873310",
+      "class_name": "platypus",
+      "class_id": 103
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01873310/ILSVRC2012_val_00038330.JPEG",
+      "synset": "n01873310",
+      "class_name": "platypus",
+      "class_id": 103
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01877812/ILSVRC2012_val_00022626.JPEG",
+      "synset": "n01877812",
+      "class_name": "wallaby",
+      "class_id": 104
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01877812/ILSVRC2012_val_00040619.JPEG",
+      "synset": "n01877812",
+      "class_name": "wallaby",
+      "class_id": 104
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01877812/ILSVRC2012_val_00045245.JPEG",
+      "synset": "n01877812",
+      "class_name": "wallaby",
+      "class_id": 104
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01882714/ILSVRC2012_val_00018026.JPEG",
+      "synset": "n01882714",
+      "class_name": "koala",
+      "class_id": 105
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01882714/ILSVRC2012_val_00026297.JPEG",
+      "synset": "n01882714",
+      "class_name": "koala",
+      "class_id": 105
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01882714/ILSVRC2012_val_00027599.JPEG",
+      "synset": "n01882714",
+      "class_name": "koala",
+      "class_id": 105
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01883070/ILSVRC2012_val_00001933.JPEG",
+      "synset": "n01883070",
+      "class_name": "wombat",
+      "class_id": 106
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01883070/ILSVRC2012_val_00033576.JPEG",
+      "synset": "n01883070",
+      "class_name": "wombat",
+      "class_id": 106
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01883070/ILSVRC2012_val_00047920.JPEG",
+      "synset": "n01883070",
+      "class_name": "wombat",
+      "class_id": 106
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01910747/ILSVRC2012_val_00000063.JPEG",
+      "synset": "n01910747",
+      "class_name": "jellyfish",
+      "class_id": 107
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01910747/ILSVRC2012_val_00007283.JPEG",
+      "synset": "n01910747",
+      "class_name": "jellyfish",
+      "class_id": 107
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01910747/ILSVRC2012_val_00015443.JPEG",
+      "synset": "n01910747",
+      "class_name": "jellyfish",
+      "class_id": 107
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01910747/ILSVRC2012_val_00018952.JPEG",
+      "synset": "n01910747",
+      "class_name": "jellyfish",
+      "class_id": 107
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01910747/ILSVRC2012_val_00026530.JPEG",
+      "synset": "n01910747",
+      "class_name": "jellyfish",
+      "class_id": 107
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01914609/ILSVRC2012_val_00010644.JPEG",
+      "synset": "n01914609",
+      "class_name": "sea_anemone",
+      "class_id": 108
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01914609/ILSVRC2012_val_00011035.JPEG",
+      "synset": "n01914609",
+      "class_name": "sea_anemone",
+      "class_id": 108
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01914609/ILSVRC2012_val_00023448.JPEG",
+      "synset": "n01914609",
+      "class_name": "sea_anemone",
+      "class_id": 108
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01917289/ILSVRC2012_val_00007027.JPEG",
+      "synset": "n01917289",
+      "class_name": "brain_coral",
+      "class_id": 109
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01917289/ILSVRC2012_val_00014410.JPEG",
+      "synset": "n01917289",
+      "class_name": "brain_coral",
+      "class_id": 109
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01917289/ILSVRC2012_val_00047927.JPEG",
+      "synset": "n01917289",
+      "class_name": "brain_coral",
+      "class_id": 109
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01924916/ILSVRC2012_val_00019425.JPEG",
+      "synset": "n01924916",
+      "class_name": "flatworm",
+      "class_id": 110
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01924916/ILSVRC2012_val_00037245.JPEG",
+      "synset": "n01924916",
+      "class_name": "flatworm",
+      "class_id": 110
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00000836.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00002428.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00012846.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00019842.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00026308.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00035048.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01930112/ILSVRC2012_val_00036635.JPEG",
+      "synset": "n01930112",
+      "class_name": "nematode",
+      "class_id": 111
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01943899/ILSVRC2012_val_00010955.JPEG",
+      "synset": "n01943899",
+      "class_name": "conch",
+      "class_id": 112
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01943899/ILSVRC2012_val_00012672.JPEG",
+      "synset": "n01943899",
+      "class_name": "conch",
+      "class_id": 112
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01943899/ILSVRC2012_val_00037632.JPEG",
+      "synset": "n01943899",
+      "class_name": "conch",
+      "class_id": 112
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01943899/ILSVRC2012_val_00039775.JPEG",
+      "synset": "n01943899",
+      "class_name": "conch",
+      "class_id": 112
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01944390/ILSVRC2012_val_00003604.JPEG",
+      "synset": "n01944390",
+      "class_name": "snail",
+      "class_id": 113
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01944390/ILSVRC2012_val_00034957.JPEG",
+      "synset": "n01944390",
+      "class_name": "snail",
+      "class_id": 113
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01944390/ILSVRC2012_val_00038059.JPEG",
+      "synset": "n01944390",
+      "class_name": "snail",
+      "class_id": 113
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01945685/ILSVRC2012_val_00006193.JPEG",
+      "synset": "n01945685",
+      "class_name": "slug",
+      "class_id": 114
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01945685/ILSVRC2012_val_00018757.JPEG",
+      "synset": "n01945685",
+      "class_name": "slug",
+      "class_id": 114
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01945685/ILSVRC2012_val_00032421.JPEG",
+      "synset": "n01945685",
+      "class_name": "slug",
+      "class_id": 114
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01945685/ILSVRC2012_val_00035202.JPEG",
+      "synset": "n01945685",
+      "class_name": "slug",
+      "class_id": 114
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01945685/ILSVRC2012_val_00038708.JPEG",
+      "synset": "n01945685",
+      "class_name": "slug",
+      "class_id": 114
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01950731/ILSVRC2012_val_00004632.JPEG",
+      "synset": "n01950731",
+      "class_name": "sea_slug",
+      "class_id": 115
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01950731/ILSVRC2012_val_00019684.JPEG",
+      "synset": "n01950731",
+      "class_name": "sea_slug",
+      "class_id": 115
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01955084/ILSVRC2012_val_00025056.JPEG",
+      "synset": "n01955084",
+      "class_name": "chiton",
+      "class_id": 116
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01955084/ILSVRC2012_val_00031321.JPEG",
+      "synset": "n01955084",
+      "class_name": "chiton",
+      "class_id": 116
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01955084/ILSVRC2012_val_00044637.JPEG",
+      "synset": "n01955084",
+      "class_name": "chiton",
+      "class_id": 116
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01968897/ILSVRC2012_val_00032056.JPEG",
+      "synset": "n01968897",
+      "class_name": "chambered_nautilus",
+      "class_id": 117
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01968897/ILSVRC2012_val_00037009.JPEG",
+      "synset": "n01968897",
+      "class_name": "chambered_nautilus",
+      "class_id": 117
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01968897/ILSVRC2012_val_00037882.JPEG",
+      "synset": "n01968897",
+      "class_name": "chambered_nautilus",
+      "class_id": 117
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978287/ILSVRC2012_val_00011087.JPEG",
+      "synset": "n01978287",
+      "class_name": "Dungeness_crab",
+      "class_id": 118
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978287/ILSVRC2012_val_00023991.JPEG",
+      "synset": "n01978287",
+      "class_name": "Dungeness_crab",
+      "class_id": 118
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978287/ILSVRC2012_val_00028380.JPEG",
+      "synset": "n01978287",
+      "class_name": "Dungeness_crab",
+      "class_id": 118
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978287/ILSVRC2012_val_00030396.JPEG",
+      "synset": "n01978287",
+      "class_name": "Dungeness_crab",
+      "class_id": 118
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978455/ILSVRC2012_val_00013377.JPEG",
+      "synset": "n01978455",
+      "class_name": "rock_crab",
+      "class_id": 119
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978455/ILSVRC2012_val_00015789.JPEG",
+      "synset": "n01978455",
+      "class_name": "rock_crab",
+      "class_id": 119
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978455/ILSVRC2012_val_00023840.JPEG",
+      "synset": "n01978455",
+      "class_name": "rock_crab",
+      "class_id": 119
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01978455/ILSVRC2012_val_00029812.JPEG",
+      "synset": "n01978455",
+      "class_name": "rock_crab",
+      "class_id": 119
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01980166/ILSVRC2012_val_00001122.JPEG",
+      "synset": "n01980166",
+      "class_name": "fiddler_crab",
+      "class_id": 120
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01980166/ILSVRC2012_val_00013999.JPEG",
+      "synset": "n01980166",
+      "class_name": "fiddler_crab",
+      "class_id": 120
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01980166/ILSVRC2012_val_00035169.JPEG",
+      "synset": "n01980166",
+      "class_name": "fiddler_crab",
+      "class_id": 120
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01981276/ILSVRC2012_val_00002190.JPEG",
+      "synset": "n01981276",
+      "class_name": "king_crab",
+      "class_id": 121
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01981276/ILSVRC2012_val_00009446.JPEG",
+      "synset": "n01981276",
+      "class_name": "king_crab",
+      "class_id": 121
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01981276/ILSVRC2012_val_00039138.JPEG",
+      "synset": "n01981276",
+      "class_name": "king_crab",
+      "class_id": 121
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01981276/ILSVRC2012_val_00042159.JPEG",
+      "synset": "n01981276",
+      "class_name": "king_crab",
+      "class_id": 121
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01983481/ILSVRC2012_val_00033104.JPEG",
+      "synset": "n01983481",
+      "class_name": "American_lobster",
+      "class_id": 122
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01984695/ILSVRC2012_val_00002743.JPEG",
+      "synset": "n01984695",
+      "class_name": "spiny_lobster",
+      "class_id": 123
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01984695/ILSVRC2012_val_00008182.JPEG",
+      "synset": "n01984695",
+      "class_name": "spiny_lobster",
+      "class_id": 123
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01985128/ILSVRC2012_val_00001956.JPEG",
+      "synset": "n01985128",
+      "class_name": "crayfish",
+      "class_id": 124
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01985128/ILSVRC2012_val_00027920.JPEG",
+      "synset": "n01985128",
+      "class_name": "crayfish",
+      "class_id": 124
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01985128/ILSVRC2012_val_00041892.JPEG",
+      "synset": "n01985128",
+      "class_name": "crayfish",
+      "class_id": 124
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01986214/ILSVRC2012_val_00003257.JPEG",
+      "synset": "n01986214",
+      "class_name": "hermit_crab",
+      "class_id": 125
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01986214/ILSVRC2012_val_00014751.JPEG",
+      "synset": "n01986214",
+      "class_name": "hermit_crab",
+      "class_id": 125
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01990800/ILSVRC2012_val_00022755.JPEG",
+      "synset": "n01990800",
+      "class_name": "isopod",
+      "class_id": 126
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01990800/ILSVRC2012_val_00038119.JPEG",
+      "synset": "n01990800",
+      "class_name": "isopod",
+      "class_id": 126
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n01990800/ILSVRC2012_val_00041213.JPEG",
+      "synset": "n01990800",
+      "class_name": "isopod",
+      "class_id": 126
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002556/ILSVRC2012_val_00008287.JPEG",
+      "synset": "n02002556",
+      "class_name": "white_stork",
+      "class_id": 127
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002556/ILSVRC2012_val_00020578.JPEG",
+      "synset": "n02002556",
+      "class_name": "white_stork",
+      "class_id": 127
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002556/ILSVRC2012_val_00032643.JPEG",
+      "synset": "n02002556",
+      "class_name": "white_stork",
+      "class_id": 127
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002556/ILSVRC2012_val_00046533.JPEG",
+      "synset": "n02002556",
+      "class_name": "white_stork",
+      "class_id": 127
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002724/ILSVRC2012_val_00017032.JPEG",
+      "synset": "n02002724",
+      "class_name": "black_stork",
+      "class_id": 128
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002724/ILSVRC2012_val_00019698.JPEG",
+      "synset": "n02002724",
+      "class_name": "black_stork",
+      "class_id": 128
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002724/ILSVRC2012_val_00023789.JPEG",
+      "synset": "n02002724",
+      "class_name": "black_stork",
+      "class_id": 128
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002724/ILSVRC2012_val_00036052.JPEG",
+      "synset": "n02002724",
+      "class_name": "black_stork",
+      "class_id": 128
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02002724/ILSVRC2012_val_00048008.JPEG",
+      "synset": "n02002724",
+      "class_name": "black_stork",
+      "class_id": 128
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02006656/ILSVRC2012_val_00014266.JPEG",
+      "synset": "n02006656",
+      "class_name": "spoonbill",
+      "class_id": 129
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02006656/ILSVRC2012_val_00022418.JPEG",
+      "synset": "n02006656",
+      "class_name": "spoonbill",
+      "class_id": 129
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02006656/ILSVRC2012_val_00025075.JPEG",
+      "synset": "n02006656",
+      "class_name": "spoonbill",
+      "class_id": 129
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02006656/ILSVRC2012_val_00029168.JPEG",
+      "synset": "n02006656",
+      "class_name": "spoonbill",
+      "class_id": 129
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02007558/ILSVRC2012_val_00004730.JPEG",
+      "synset": "n02007558",
+      "class_name": "flamingo",
+      "class_id": 130
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02007558/ILSVRC2012_val_00014883.JPEG",
+      "synset": "n02007558",
+      "class_name": "flamingo",
+      "class_id": 130
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02007558/ILSVRC2012_val_00022414.JPEG",
+      "synset": "n02007558",
+      "class_name": "flamingo",
+      "class_id": 130
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009229/ILSVRC2012_val_00000794.JPEG",
+      "synset": "n02009229",
+      "class_name": "little_blue_heron",
+      "class_id": 131
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009229/ILSVRC2012_val_00007043.JPEG",
+      "synset": "n02009229",
+      "class_name": "little_blue_heron",
+      "class_id": 131
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009229/ILSVRC2012_val_00018197.JPEG",
+      "synset": "n02009229",
+      "class_name": "little_blue_heron",
+      "class_id": 131
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009229/ILSVRC2012_val_00034578.JPEG",
+      "synset": "n02009229",
+      "class_name": "little_blue_heron",
+      "class_id": 131
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009912/ILSVRC2012_val_00001891.JPEG",
+      "synset": "n02009912",
+      "class_name": "American_egret",
+      "class_id": 132
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009912/ILSVRC2012_val_00031290.JPEG",
+      "synset": "n02009912",
+      "class_name": "American_egret",
+      "class_id": 132
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02009912/ILSVRC2012_val_00037714.JPEG",
+      "synset": "n02009912",
+      "class_name": "American_egret",
+      "class_id": 132
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02011460/ILSVRC2012_val_00009672.JPEG",
+      "synset": "n02011460",
+      "class_name": "bittern",
+      "class_id": 133
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02011460/ILSVRC2012_val_00030908.JPEG",
+      "synset": "n02011460",
+      "class_name": "bittern",
+      "class_id": 133
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02011460/ILSVRC2012_val_00045951.JPEG",
+      "synset": "n02011460",
+      "class_name": "bittern",
+      "class_id": 133
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02012849/ILSVRC2012_val_00006144.JPEG",
+      "synset": "n02012849",
+      "class_name": "crane",
+      "class_id": 134
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02012849/ILSVRC2012_val_00006711.JPEG",
+      "synset": "n02012849",
+      "class_name": "crane",
+      "class_id": 134
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02012849/ILSVRC2012_val_00043150.JPEG",
+      "synset": "n02012849",
+      "class_name": "crane",
+      "class_id": 134
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02013706/ILSVRC2012_val_00029885.JPEG",
+      "synset": "n02013706",
+      "class_name": "limpkin",
+      "class_id": 135
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02013706/ILSVRC2012_val_00031304.JPEG",
+      "synset": "n02013706",
+      "class_name": "limpkin",
+      "class_id": 135
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02013706/ILSVRC2012_val_00031582.JPEG",
+      "synset": "n02013706",
+      "class_name": "limpkin",
+      "class_id": 135
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02017213/ILSVRC2012_val_00035085.JPEG",
+      "synset": "n02017213",
+      "class_name": "European_gallinule",
+      "class_id": 136
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02017213/ILSVRC2012_val_00037233.JPEG",
+      "synset": "n02017213",
+      "class_name": "European_gallinule",
+      "class_id": 136
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02017213/ILSVRC2012_val_00046080.JPEG",
+      "synset": "n02017213",
+      "class_name": "European_gallinule",
+      "class_id": 136
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018207/ILSVRC2012_val_00021851.JPEG",
+      "synset": "n02018207",
+      "class_name": "American_coot",
+      "class_id": 137
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018207/ILSVRC2012_val_00022926.JPEG",
+      "synset": "n02018207",
+      "class_name": "American_coot",
+      "class_id": 137
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018207/ILSVRC2012_val_00034172.JPEG",
+      "synset": "n02018207",
+      "class_name": "American_coot",
+      "class_id": 137
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018795/ILSVRC2012_val_00016264.JPEG",
+      "synset": "n02018795",
+      "class_name": "bustard",
+      "class_id": 138
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018795/ILSVRC2012_val_00030392.JPEG",
+      "synset": "n02018795",
+      "class_name": "bustard",
+      "class_id": 138
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02018795/ILSVRC2012_val_00036457.JPEG",
+      "synset": "n02018795",
+      "class_name": "bustard",
+      "class_id": 138
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02025239/ILSVRC2012_val_00028363.JPEG",
+      "synset": "n02025239",
+      "class_name": "ruddy_turnstone",
+      "class_id": 139
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02025239/ILSVRC2012_val_00033718.JPEG",
+      "synset": "n02025239",
+      "class_name": "ruddy_turnstone",
+      "class_id": 139
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02025239/ILSVRC2012_val_00044377.JPEG",
+      "synset": "n02025239",
+      "class_name": "ruddy_turnstone",
+      "class_id": 139
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02027492/ILSVRC2012_val_00016981.JPEG",
+      "synset": "n02027492",
+      "class_name": "red-backed_sandpiper",
+      "class_id": 140
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02027492/ILSVRC2012_val_00018099.JPEG",
+      "synset": "n02027492",
+      "class_name": "red-backed_sandpiper",
+      "class_id": 140
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02027492/ILSVRC2012_val_00037752.JPEG",
+      "synset": "n02027492",
+      "class_name": "red-backed_sandpiper",
+      "class_id": 140
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02028035/ILSVRC2012_val_00005034.JPEG",
+      "synset": "n02028035",
+      "class_name": "redshank",
+      "class_id": 141
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02028035/ILSVRC2012_val_00013808.JPEG",
+      "synset": "n02028035",
+      "class_name": "redshank",
+      "class_id": 141
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02028035/ILSVRC2012_val_00034441.JPEG",
+      "synset": "n02028035",
+      "class_name": "redshank",
+      "class_id": 141
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02033041/ILSVRC2012_val_00026178.JPEG",
+      "synset": "n02033041",
+      "class_name": "dowitcher",
+      "class_id": 142
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02033041/ILSVRC2012_val_00029782.JPEG",
+      "synset": "n02033041",
+      "class_name": "dowitcher",
+      "class_id": 142
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02033041/ILSVRC2012_val_00031448.JPEG",
+      "synset": "n02033041",
+      "class_name": "dowitcher",
+      "class_id": 142
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02033041/ILSVRC2012_val_00033833.JPEG",
+      "synset": "n02033041",
+      "class_name": "dowitcher",
+      "class_id": 142
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02037110/ILSVRC2012_val_00009923.JPEG",
+      "synset": "n02037110",
+      "class_name": "oystercatcher",
+      "class_id": 143
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02037110/ILSVRC2012_val_00011196.JPEG",
+      "synset": "n02037110",
+      "class_name": "oystercatcher",
+      "class_id": 143
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02037110/ILSVRC2012_val_00025491.JPEG",
+      "synset": "n02037110",
+      "class_name": "oystercatcher",
+      "class_id": 143
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02051845/ILSVRC2012_val_00019198.JPEG",
+      "synset": "n02051845",
+      "class_name": "pelican",
+      "class_id": 144
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02051845/ILSVRC2012_val_00036745.JPEG",
+      "synset": "n02051845",
+      "class_name": "pelican",
+      "class_id": 144
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02051845/ILSVRC2012_val_00038118.JPEG",
+      "synset": "n02051845",
+      "class_name": "pelican",
+      "class_id": 144
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02051845/ILSVRC2012_val_00048664.JPEG",
+      "synset": "n02051845",
+      "class_name": "pelican",
+      "class_id": 144
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02056570/ILSVRC2012_val_00008279.JPEG",
+      "synset": "n02056570",
+      "class_name": "king_penguin",
+      "class_id": 145
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02056570/ILSVRC2012_val_00039797.JPEG",
+      "synset": "n02056570",
+      "class_name": "king_penguin",
+      "class_id": 145
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02056570/ILSVRC2012_val_00043717.JPEG",
+      "synset": "n02056570",
+      "class_name": "king_penguin",
+      "class_id": 145
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02058221/ILSVRC2012_val_00008056.JPEG",
+      "synset": "n02058221",
+      "class_name": "albatross",
+      "class_id": 146
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02058221/ILSVRC2012_val_00012187.JPEG",
+      "synset": "n02058221",
+      "class_name": "albatross",
+      "class_id": 146
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02058221/ILSVRC2012_val_00029223.JPEG",
+      "synset": "n02058221",
+      "class_name": "albatross",
+      "class_id": 146
+    },
+    {
+      "image_path": "ImageNet-Mini/images/n02066245/ILSVRC2012_val_00009440.JPEG",
+      "synset": "n02066245",
+      "class_name": "grey_whale",
+      "class_id": 147
+    }
+  ]
+}
