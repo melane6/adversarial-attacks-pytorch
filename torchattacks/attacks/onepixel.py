@@ -1,10 +1,13 @@
 import numpy as np
+import logging
 
 import torch
 import torch.nn.functional as F
 
 from ..attack import Attack
 from ._differential_evolution import differential_evolution
+
+logger = logging.getLogger(__name__)
 
 
 class OnePixel(Attack):
@@ -61,26 +64,68 @@ class OnePixel(Attack):
 
         popmul = max(1, int(self.popsize / len(bounds)))
 
+        logger.info(
+            "OnePixel: batch_size=%d pixels=%d steps=%d popsize=%d inf_batch=%d",
+            batch_size,
+            self.pixels,
+            self.steps,
+            self.popsize,
+            self.inf_batch,
+        )
+
         adv_images = []
         for idx in range(batch_size):
             image, label = images[idx : idx + 1], labels[idx : idx + 1]
+            logger.debug("OnePixel: starting attack for image %d/%d label=%s", idx + 1, batch_size, int(label.item()))
 
             if self.targeted:
                 target_label = target_labels[idx : idx + 1]
+                gen = [0]
 
                 def func(delta):
                     return self._loss(image, target_label, delta)
 
-                def callback(delta, convergence):
-                    return self._attack_success(image, target_label, delta)
+                def callback(delta, convergence, image_idx=idx, gen_ref=gen):
+                    gen_ref[0] += 1
+                    logger.debug(
+                        "OnePixel: image %d/%d generation %d convergence=%.6f",
+                        image_idx + 1,
+                        batch_size,
+                        gen_ref[0],
+                        convergence,
+                    )
+                    success = self._attack_success(image, target_label, delta)
+                    if success:
+                        logger.debug(
+                            "OnePixel: attack success for image %d at generation %d",
+                            image_idx + 1,
+                            gen_ref[0],
+                        )
+                    return success
 
             else:
+                gen = [0]
 
                 def func(delta):
                     return self._loss(image, label, delta)
 
-                def callback(delta, convergence):
-                    return self._attack_success(image, label, delta)
+                def callback(delta, convergence, image_idx=idx, gen_ref=gen):
+                    gen_ref[0] += 1
+                    logger.debug(
+                        "OnePixel: image %d/%d generation %d convergence=%.6f",
+                        image_idx + 1,
+                        batch_size,
+                        gen_ref[0],
+                        convergence,
+                    )
+                    success = self._attack_success(image, label, delta)
+                    if success:
+                        logger.debug(
+                            "OnePixel: attack success for image %d at generation %d",
+                            image_idx + 1,
+                            gen_ref[0],
+                        )
+                    return success
 
             delta = differential_evolution(
                 func=func,

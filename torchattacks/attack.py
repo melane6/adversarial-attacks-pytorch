@@ -1,15 +1,22 @@
 import time
+import logging
 from collections import OrderedDict
 
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+logger = logging.getLogger(__name__)
+
 
 def wrapper_method(func):
     def wrapper_func(self, *args, **kwargs):
+        logger.debug("wrapper_method: calling %s on %s", func.__name__, getattr(self, "attack", type(self).__name__))
         result = func(self, *args, **kwargs)
         for atk in self.__dict__.get("_attacks").values():
-            eval("atk." + func.__name__ + "(*args, **kwargs)")
+            try:
+                eval("atk." + func.__name__ + "(*args, **kwargs)")
+            except Exception:
+                logger.exception("Failed to propagate %s to sub-attack", func.__name__)
         return result
 
     return wrapper_func
@@ -72,8 +79,10 @@ class Attack(object):
     def set_model(self, model):
         self.model = model
         self.model_name = model.__class__.__name__
+        logger.info("Attack.set_model: model set to %s", self.model_name)
 
     def get_logits(self, inputs, labels=None, *args, **kwargs):
+        logger.debug("get_logits: inputs.shape=%s", getattr(inputs, "shape", None))
         if self._normalization_applied is False:
             inputs = self.normalize(inputs)
         logits = self.model(inputs)
@@ -82,10 +91,12 @@ class Attack(object):
     @wrapper_method
     def _set_normalization_applied(self, flag):
         self._normalization_applied = flag
+        logger.debug("Normalization applied set to %s", flag)
 
     @wrapper_method
     def set_device(self, device):
         self.device = device
+        logger.info("Attack.set_device: device set to %s", device)
 
     @wrapper_method
     def _set_rmodel_normalization_used(self, model):
@@ -112,6 +123,10 @@ class Attack(object):
         self.normalization_used["mean"] = mean
         self.normalization_used["std"] = std
         self._set_normalization_applied(True)
+        try:
+            logger.info("Normalization set: mean=%s std=%s", getattr(mean, "shape", str(mean)), getattr(std, "shape", str(std)))
+        except Exception:
+            logger.debug("Normalization set (shapes unavailable)")
 
     def normalize(self, inputs):
         mean = self.normalization_used["mean"].to(inputs.device)
@@ -138,7 +153,7 @@ class Attack(object):
         """
         self.attack_mode = "default"
         self.targeted = False
-        print("Attack mode is changed to 'default.'")
+        logger.info("Attack mode is changed to 'default.'")
 
     @wrapper_method
     def _set_mode_targeted(self, mode, quiet):
@@ -147,7 +162,7 @@ class Attack(object):
         self.targeted = True
         self.attack_mode = mode
         if not quiet:
-            print("Attack mode is changed to '%s'." % mode)
+            logger.info("Attack mode is changed to '%s'.", mode)
 
     @wrapper_method
     def set_mode_targeted_by_function(self, target_map_function, quiet=False):
@@ -315,6 +330,15 @@ class Attack(object):
                         self._save_print(
                             progress, rob_acc, l2, elapsed_time, end="\r"
                         )  # nopep8
+                    logger.debug(
+                        "Save progress: step=%d/%d progress=%.2f%% rob_acc=%.2f l2=%.5f elapsed=%.2fs",
+                        step + 1,
+                        total_batch,
+                        progress,
+                        rob_acc,
+                        l2,
+                        elapsed_time,
+                    )
 
             if save_path is not None:
                 adv_input_list.append(adv_inputs.detach().cpu())
@@ -432,9 +456,7 @@ class Attack(object):
 
         adv_data = TensorDataset(*[save_dict[key] for key in keys])
         adv_loader = DataLoader(adv_data, batch_size=batch_size, shuffle=shuffle)
-        print(
-            "Data is loaded in the following order: [%s]" % (", ".join(keys))
-        )  # nopep8
+        logger.info("Data is loaded in the following order: [%s]", ", ".join(keys))
         return adv_loader
 
     @torch.no_grad()
@@ -442,9 +464,11 @@ class Attack(object):
         given_training = self.model.training
         if given_training:
             self.model.eval()
+            logger.debug("Temporarily set model to eval() for inference.")
         outputs = self.get_logits(inputs)
         if given_training:
             self.model.train()
+            logger.debug("Restored model training mode after inference.")
         return outputs
 
     def get_target_label(self, inputs, labels=None):
@@ -495,10 +519,12 @@ class Attack(object):
         return target_labels.long().to(self.device)
 
     def __call__(self, inputs, labels=None, *args, **kwargs):
+        logger.debug("Attack.__call__: starting attack call on inputs.shape=%s", getattr(inputs, "shape", None))
         given_training = self.model.training
         self._change_model_mode(given_training)
 
         if self._normalization_applied is True:
+            logger.debug("Inverse-normalizing inputs for internal attack processing.")
             inputs = self.inverse_normalize(inputs)
             self._set_normalization_applied(False)
 
@@ -512,6 +538,7 @@ class Attack(object):
             # adv_inputs = self.to_type(adv_inputs, self.return_type)
 
         self._recover_model_mode(given_training)
+        logger.debug("Attack.__call__: finished attack call")
 
         return adv_inputs
 
@@ -543,6 +570,7 @@ class Attack(object):
         object.__setattr__(self, name, value)
 
         attacks = self.__dict__.get("_attacks")
+        logger.debug("Attack.__setattr__: registering attribute %s", name)
 
         # Get all items in iterable items.
         def get_all_values(items, stack=[]):
