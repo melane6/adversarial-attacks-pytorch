@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 from pathlib import Path
 from typing import List, TypedDict, Dict
 
@@ -29,44 +30,48 @@ def load_index(out_dir: str = "./data/miniimagenet") -> Dict:
         return json.load(f)
 
 
-def parse_images(images: List[Path], out_dir: str, index: Dict) -> List[ImageNetRecord]:
-    out = Path(out_dir)
-    synset_map = {v[0]: (int(k), v[1]) for k, v in index.items()}
-
-    records: List[ImageNetRecord] = []
-    for img in images:
-        synset = img.parent.name
-        class_id, class_name = synset_map[synset]
-        rel = str(img.relative_to(out)).replace("\\", "/")
-        records.append(
-            ImageNetRecord(
-                image_path=rel,
-                synset=synset,
-                class_name=class_name,
-                class_id=class_id,
-            )
-        )
-    return records
-
-
 def sample_and_create_dataset_json(
-    data: List[ImageNetRecord],
+    images: List[Path],
     out_dir: str = "./data/miniimagenet",
     sample_size: int = 500,
+    seed: int | None = None,
 ) -> Path:
+    """Randomly sample from all discovered image paths and write simple records.
+    Each sample record contains only `image_path` (relative to `out_dir`),
+    `synset`, `class_id`, and `class_name`.
+    """
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    sample_size = min(sample_size, len(data))
-    sampled = data[:sample_size]
+    sample_size = min(sample_size, len(images))
+    rng = random.Random(seed)
+    sampled_paths = rng.sample(images, sample_size) if sample_size > 0 else []
+
+    index = load_index(out)
+    synset_map = {v[0]: (int(k), v[1]) for k, v in index.items()}
+
+    samples = []
+    for img in sampled_paths:
+        rel = str(img.relative_to(out)).replace("\\", "/")
+        synset = img.parent.name
+        class_id, class_name = synset_map.get(synset, (-1, ""))
+        samples.append(
+            {
+                "image_path": rel,
+                "synset": synset,
+                "class_id": class_id,
+                "class_name": class_name,
+            }
+        )
 
     dataset = {
         "metadata": {
-            "version": 2,
+            "version": 3,
             "dataset_root": str(out.resolve()),
-            "sample_size": len(sampled),
+            "sample_size": len(samples),
+            "seed": seed,
         },
-        "samples": sampled,
+        "samples": samples,
     }
 
     json_path = out / "dataset.json"
@@ -89,17 +94,18 @@ def main(argv: List[str] | None = None) -> int:
     p.add_argument(
         "--sample-size", type=int, default=500, help="Number of images to include."
     )
+    p.add_argument(
+        "--seed", type=int, default=None, help="Optional random seed for sampling."
+    )
     args = p.parse_args(argv)
 
     images = get_image_paths(args.out)
-    index = load_index(args.out)
-    data = parse_images(images, args.out, index)
     json_path = sample_and_create_dataset_json(
-        data, out_dir=args.out, sample_size=args.sample_size
+        images, out_dir=args.out, sample_size=args.sample_size, seed=args.seed
     )
 
     print(
-        f"Saved {args.sample_size} samples to {json_path} (found {len(data)} images)."
+        f"Saved {args.sample_size} samples to {json_path} (found {len(images)} images)."
     )
 
     return 0
@@ -112,7 +118,6 @@ if __name__ == "__main__":
 def load_samples(dataset_json_path: Path, max_images: int) -> List[ImageNetRecord]:
     with dataset_json_path.open() as f:
         data = json.load(f)
-
     samples = data.get("samples", [])
     base_dir = Path(
         data.get("metadata", {}).get("dataset_root", dataset_json_path.parent)
@@ -120,13 +125,12 @@ def load_samples(dataset_json_path: Path, max_images: int) -> List[ImageNetRecor
 
     picked: List[ImageNetRecord] = []
     for s in samples[:max_images]:
-        img_path = base_dir / s["image_path"]
         picked.append(
             ImageNetRecord(
-                image_path=str(img_path),
-                class_id=int(s["class_id"]),
-                synset=s.get("synset", ""),
-                class_name=s.get("class_name", ""),
+                image_path=str(base_dir / s["image_path"]),
+                class_id=s.get("class_id"),
+                synset=s.get("synset"),
+                class_name=s.get("class_name"),
             )
         )
     return picked
