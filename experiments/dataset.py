@@ -115,7 +115,7 @@ if __name__ == "__main__":
     raise SystemExit(main())
 
 
-def load_samples(dataset_json_path: Path, max_images: int) -> List[ImageNetRecord]:
+def load_samples(dataset_json_path: Path, max_images: int = -1) -> List[ImageNetRecord]:
     with dataset_json_path.open() as f:
         data = json.load(f)
     samples = data.get("samples", [])
@@ -124,7 +124,8 @@ def load_samples(dataset_json_path: Path, max_images: int) -> List[ImageNetRecor
     )
 
     picked: List[ImageNetRecord] = []
-    for s in samples[:max_images]:
+    iter_samples = samples if max_images == -1 else samples[:max_images]
+    for s in iter_samples:
         picked.append(
             ImageNetRecord(
                 image_path=str(base_dir / s["image_path"]),
