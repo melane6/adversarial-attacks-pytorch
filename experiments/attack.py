@@ -1,3 +1,13 @@
+"""
+Run OnePixel attack on ConvNeXt-Large using samples from dataset.json. The attack
+is run on a clean-correct subset of the data, and detailed results (including
+adversarial examples, predictions, and metadata) are saved to a .pt file. A
+human-readable summary is also written to result.txt.
+
+The point is to find attackable images on the dataset and identify any patterns
+in which samples are vulnerable to a one-pixel attack.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -74,21 +84,36 @@ def parse_args() -> argparse.Namespace:
         help="Model to attack.",
     )
     p.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable informational logging (less verbose than debug).",
-    )
-    p.add_argument(
-        "--debug",
-        action="store_true",
-        help="Enable debug logging (very verbose).",
-    )
-    p.add_argument(
         "--save-path",
         default=None,
         help="Path to save detailed attack results (.pt). Defaults to onepixel_{model}_results.pt",
     )
     return p.parse_args()
+
+
+def configure_logging(log_path: Path) -> Logger:
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
+    for handler in list(root_logger.handlers):
+        root_logger.removeHandler(handler)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    file_handler = logging.FileHandler(log_path, mode="w", encoding="utf-8")
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+    root_logger.addHandler(file_handler)
+
+    logger = logging.getLogger("attack")
+    logger.setLevel(logging.DEBUG)
+    return logger
 
 
 def save_and_enrich_results(
@@ -139,15 +164,16 @@ def save_and_enrich_results(
 
     saved: AttackSavedDict = torch.load(save_path, map_location="cpu")
     adv_inputs_pixel: torch.Tensor = saved["adv_inputs"]
+    pred_adv: Optional[torch.Tensor] = saved.get("preds")
+    if pred_adv is None:
+        # Fallback for older artifacts that did not store predictions.
+        n_channels: int = len(mean)
+        mean_t: torch.Tensor = torch.tensor(mean).reshape(1, n_channels, 1, 1)
+        std_t: torch.Tensor = torch.tensor(std).reshape(1, n_channels, 1, 1)
+        adv_inputs_norm: torch.Tensor = (adv_inputs_pixel - mean_t) / std_t
 
-    # Normalize adversarial inputs for model prediction:
-    n_channels: int = len(mean)
-    mean_t: torch.Tensor = torch.tensor(mean).reshape(1, n_channels, 1, 1)
-    std_t: torch.Tensor = torch.tensor(std).reshape(1, n_channels, 1, 1)
-    adv_inputs_norm: torch.Tensor = (adv_inputs_pixel - mean_t) / std_t
-
-    with torch.no_grad():
-        pred_adv: torch.Tensor = model(adv_inputs_norm.to(device)).argmax(dim=1).cpu()
+        with torch.no_grad():
+            pred_adv = model(adv_inputs_norm.to(device)).argmax(dim=1).cpu()
 
     clean_inputs_pixel: torch.Tensor = saved["clean_inputs"]
 
@@ -233,17 +259,14 @@ def main() -> int:
 
     device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Default to WARNING to avoid noisy output; --verbose => INFO, --debug => DEBUG
-    if args.debug:
-        log_level = logging.DEBUG
-    elif args.verbose:
-        log_level = logging.INFO
-    else:
-        log_level = logging.WARNING
-    logging.basicConfig(
-        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
+    default_save_path = (
+        args.save_path
+        if args.save_path is not None
+        else f"onepixel_{args.model}_results.pt"
     )
-    logger = logging.getLogger("attack")
+    log_path = Path(default_save_path).with_suffix(".log")
+    logger = configure_logging(log_path)
+    logger.debug("Debug logging is always enabled for both console and file output.")
 
     logger.info(f"Using device: {device}")
 
@@ -333,7 +356,7 @@ def main() -> int:
         save_path,
         device,
         args.inf_batch,
-        args.verbose,
+        verbose=True,
     )
     logger.info("Detailed attack data saved to %s and %s", save_path, enriched_path)
 

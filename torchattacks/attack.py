@@ -288,6 +288,7 @@ class Attack(object):
                 pred_list = []
             if save_clean_inputs:
                 input_list = []
+            save_dict = {}
 
         correct = 0
         total = 0
@@ -301,7 +302,7 @@ class Attack(object):
             adv_inputs = self.__call__(inputs, labels)
             batch_size = len(inputs)
 
-            if verbose or return_verbose:
+            if verbose or return_verbose or save_predictions:
                 with torch.no_grad():
                     outputs = self.get_output_with_eval_nograd(adv_inputs)
 
@@ -344,44 +345,49 @@ class Attack(object):
                 adv_input_list.append(adv_inputs.detach().cpu())
                 label_list.append(labels.detach().cpu())
 
-                adv_input_list_cat = torch.cat(adv_input_list, 0)
-                label_list_cat = torch.cat(label_list, 0)
-
-                save_dict = {
-                    "adv_inputs": adv_input_list_cat,
-                    "labels": label_list_cat,
-                }  # nopep8
-
                 if save_predictions:
                     pred_list.append(pred.detach().cpu())
-                    pred_list_cat = torch.cat(pred_list, 0)
-                    save_dict["preds"] = pred_list_cat
 
                 if save_clean_inputs:
                     input_list.append(inputs.detach().cpu())
-                    input_list_cat = torch.cat(input_list, 0)
-                    save_dict["clean_inputs"] = input_list_cat
 
-                if self.normalization_used is not None:
-                    save_dict["adv_inputs"] = self.inverse_normalize(
-                        save_dict["adv_inputs"]
+        if save_path is not None:
+            adv_input_list_cat = torch.cat(adv_input_list, 0)
+            label_list_cat = torch.cat(label_list, 0)
+
+            save_dict = {
+                "adv_inputs": adv_input_list_cat,
+                "labels": label_list_cat,
+            }  # nopep8
+
+            if save_predictions:
+                pred_list_cat = torch.cat(pred_list, 0)
+                save_dict["preds"] = pred_list_cat
+
+            if save_clean_inputs:
+                input_list_cat = torch.cat(input_list, 0)
+                save_dict["clean_inputs"] = input_list_cat
+
+            if self.normalization_used is not None:
+                save_dict["adv_inputs"] = self.inverse_normalize(
+                    save_dict["adv_inputs"]
+                )  # nopep8
+                if save_clean_inputs:
+                    save_dict["clean_inputs"] = self.inverse_normalize(
+                        save_dict["clean_inputs"]
                     )  # nopep8
-                    if save_clean_inputs:
-                        save_dict["clean_inputs"] = self.inverse_normalize(
-                            save_dict["clean_inputs"]
-                        )  # nopep8
 
-                if save_type == "int":
-                    save_dict["adv_inputs"] = self.to_type(
-                        save_dict["adv_inputs"], "int"
+            if save_type == "int":
+                save_dict["adv_inputs"] = self.to_type(
+                    save_dict["adv_inputs"], "int"
+                )  # nopep8
+                if save_clean_inputs:
+                    save_dict["clean_inputs"] = self.to_type(
+                        save_dict["clean_inputs"], "int"
                     )  # nopep8
-                    if save_clean_inputs:
-                        save_dict["clean_inputs"] = self.to_type(
-                            save_dict["clean_inputs"], "int"
-                        )  # nopep8
 
-                save_dict["save_type"] = save_type
-                torch.save(save_dict, save_path)
+            save_dict["save_type"] = save_type
+            torch.save(save_dict, save_path)
 
         # To avoid erasing the printed information.
         if verbose:
