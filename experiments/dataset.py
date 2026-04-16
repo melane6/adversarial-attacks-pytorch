@@ -1,137 +1,65 @@
 from __future__ import annotations
 
-import argparse
-import json
-import random
 from pathlib import Path
-from typing import List, TypedDict, Dict
+import glob
+import torch
+import pandas as pd
+import numpy as np
+from PIL import Image
+
+class ImageNetDataset(torch.utils.data.Dataset):
+    def __init__(self, dataset_path: Path, transform=None, device=None):
+        self.dataset_path = dataset_path
+        self.transform = transform
+        self.json_path = dataset_path / "imagenet_class_index.json"
+        self.labels = pd.read_json(self.json_path)
+        self.device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.records_path = None
+        self.records = None
+
+        self.load_records()
+
+    def load_records(self):
+        self.records_path = self.dataset_path / "dataset.json"
+        if self.records_path.exists():
+            self.records = pd.read_json(self.records_path)
+        else:
+            self.create_records()
+
+    def create_records(self):
+        img_paths = glob.glob(str(self.dataset_path / "images" / "**/*.JPEG"))
+        records = []
+        for i, img_path in enumerate(img_paths):
+            folder_name = img_path.split("/")[-2]
+            print(folder_name)
+            idx = np.where(self.labels.values[0] == folder_name)[0][0]
+            class_label = self.labels.values[1][idx]
+            records.append({
+                "image_path": img_path,
+                "class_id": idx,
+                "class_name": class_label,
+                "class_folder": folder_name
+            })
+
+        self.records = pd.DataFrame(records)
+        self.records.to_json(self.dataset_path / "dataset.json", orient="records")
 
 
-IMAGE_EXTS = ("*.jpg", "*.jpeg", "*.png", "*.JPEG", "*.JPG")
+    def __getitem__(self, index):
+        record = self.records.iloc[index]
+        image_path = Path(record['image_path'])
+        image = Image.open(image_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
+        return {
+            'image': image.to(self.device),
+            'image_path': str(image_path),
+            'image_name': image_path.name,
+            'image_id': index, # index in dataset.json
+            'class_id': record['class_id'],
+            'class_name': record['class_name'],
+            'class_folder': record['class_folder'],
+        }
 
-
-class ImageNetRecord(TypedDict):
-    image_path: str
-    synset: str
-    class_name: str
-    class_id: int
-
-
-def get_image_paths(out_dir: str = "./data/miniimagenet") -> List[Path]:
-    out = Path(out_dir)
-    imgs: List[Path] = []
-    for e in IMAGE_EXTS:
-        imgs.extend(sorted(out.rglob(e)))
-    return imgs
-
-
-def load_index(out_dir: str = "./data/miniimagenet") -> Dict:
-    with open(Path(out_dir) / "ImageNet-Mini/imagenet_class_index.json") as f:
-        return json.load(f)
-
-
-def sample_and_create_dataset_json(
-    images: List[Path],
-    out_dir: str = "./data/miniimagenet",
-    sample_size: int = 500,
-    seed: int | None = None,
-) -> Path:
-    """Randomly sample from all discovered image paths and write simple records.
-    Each sample record contains only `image_path` (relative to `out_dir`),
-    `synset`, `class_id`, and `class_name`.
-    """
-    out = Path(out_dir)
-    out.mkdir(parents=True, exist_ok=True)
-
-    sample_size = min(sample_size, len(images))
-    rng = random.Random(seed)
-    sampled_paths = rng.sample(images, sample_size) if sample_size > 0 else []
-
-    index = load_index(out)
-    synset_map = {v[0]: (int(k), v[1]) for k, v in index.items()}
-
-    samples = []
-    for img in sampled_paths:
-        rel = str(img.relative_to(out)).replace("\\", "/")
-        synset = img.parent.name
-        class_id, class_name = synset_map.get(synset, (-1, ""))
-        samples.append(
-            {
-                "image_path": rel,
-                "synset": synset,
-                "class_id": class_id,
-                "class_name": class_name,
-            }
-        )
-
-    dataset = {
-        "metadata": {
-            "version": 3,
-            "dataset_root": str(out.resolve()),
-            "sample_size": len(samples),
-            "seed": seed,
-        },
-        "samples": samples,
-    }
-
-    json_path = out / "dataset.json"
-    with open(json_path, "w") as f:
-        json.dump(dataset, f, indent=2)
-
-    return json_path
-
-
-def get_dataset_json(out_dir: str = "./data/miniimagenet") -> Dict:
-    with open(Path(out_dir) / "dataset.json") as f:
-        return json.load(f)
-
-
-def main(argv: List[str] | None = None) -> int:
-    p = argparse.ArgumentParser(
-        description="Parse mini-ImageNet and create dataset.json."
-    )
-    p.add_argument("--out", default="./data/miniimagenet", help="Output directory.")
-    p.add_argument(
-        "--sample-size", type=int, default=500, help="Number of images to include."
-    )
-    p.add_argument(
-        "--seed", type=int, default=None, help="Optional random seed for sampling."
-    )
-    args = p.parse_args(argv)
-
-    images = get_image_paths(args.out)
-    json_path = sample_and_create_dataset_json(
-        images, out_dir=args.out, sample_size=args.sample_size, seed=args.seed
-    )
-
-    print(
-        f"Saved {args.sample_size} samples to {json_path} (found {len(images)} images)."
-    )
-
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
-
-
-def load_samples(dataset_json_path: Path, max_images: int = -1) -> List[ImageNetRecord]:
-    with dataset_json_path.open() as f:
-        data = json.load(f)
-    samples = data.get("samples", [])
-    base_dir = Path(
-        data.get("metadata", {}).get("dataset_root", dataset_json_path.parent)
-    )
-
-    picked: List[ImageNetRecord] = []
-    iter_samples = samples if max_images == -1 else samples[:max_images]
-    for s in iter_samples:
-        picked.append(
-            ImageNetRecord(
-                image_path=str(base_dir / s["image_path"]),
-                class_id=s.get("class_id"),
-                synset=s.get("synset"),
-                class_name=s.get("class_name"),
-            )
-        )
-    return picked
+    def __len__(self):
+        return len(self.records)
