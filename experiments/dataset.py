@@ -90,7 +90,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
                 if exp.ndim == 4:
                     exp = exp.squeeze(0)[0]
                 elif exp.ndim == 3:
-                    exp = exp[0, :, :].unsqueeze(0)
+                    exp = exp[0, :, :]
                 print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
             exp = None
