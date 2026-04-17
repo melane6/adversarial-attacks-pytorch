@@ -68,6 +68,7 @@ class OnePixel(Attack):
 
         allowed_coords = None
         if mask is not None:
+            logger.info(f"OnePixel: mask provided: Shape: {mask.shape}")
             if isinstance(mask, torch.Tensor):
                 mask = mask.to(torch.bool)
             else:
@@ -77,9 +78,9 @@ class OnePixel(Attack):
 
             mask_np = mask.detach().cpu().numpy()[0]
             allowed_coords = [np.argwhere(mask_np[i]) for i in range(batch_size)]
-            print(
-                f"Mask shape: {mask.shape}, allowed coordinates: {allowed_coords[0].shape[0]} per image and length {len(allowed_coords)}")
-
+            logger.info("OnePixel: mask applied. Allowed pixels per image:")
+            for i, coords in enumerate(allowed_coords):
+                logger.info(f"  Image {i}: {coords.shape[0]} allowed pixels")
             # Check that each batch image has at least one allowed pixel
             for i, coords in enumerate(allowed_coords):
                 if coords.shape[0] == 0:

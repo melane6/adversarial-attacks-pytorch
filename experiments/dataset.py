@@ -87,11 +87,11 @@ class ImageNetDataset(torch.utils.data.Dataset):
             if exp is not None:
                 exp = np.load(exp)
                 exp = torch.from_numpy(exp)
-                print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
                 if exp.ndim == 4:
                     exp = exp.squeeze(0)[0]
                 elif exp.ndim == 3:
                     exp = exp[0, :, :].unsqueeze(0)
+                print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
             exp = None
         row =  {
