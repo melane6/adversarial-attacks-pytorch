@@ -16,8 +16,13 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.records_path = None
         self.records = None
-
         self.load_records()
+
+        # Explanations - optional
+        self.explanations_path = None # ReX csv file path
+        self.explanations_folder = None
+        self.explanations = None
+        self.exp_model = None
 
     def load_records(self):
         self.records_path = self.dataset_path / "dataset.json"
@@ -44,6 +49,30 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.records = pd.DataFrame(records)
         self.records.to_json(self.dataset_path / "dataset.json", orient="records")
 
+    def load_explanations(self, path, model_name):
+        self.exp_model = model_name
+        self.explanations_path = path
+        self.explanations_folder = Path(path).parent
+        if Path(path).exists():
+            self.explanations = pd.read_csv(path)
+        else:
+            raise ValueError(f"Explanations file not found: {path}")
+
+    def get_exp(self, image_name):
+        if self.explanations is None:
+            raise ValueError("Explanations not loaded")
+        row =  self.explanations[self.explanations['path'].str.contains(image_name)]
+        if len(row) == 0:
+            return None
+        else:
+            return row['explanation_0'] # get the first one out
+
+    def num_exp(self, index):
+        exp = self.get_exp(index)
+        if exp is None:
+            return 0
+        else:
+            return len(exp)
 
     def __getitem__(self, index):
         record = self.records.iloc[index]
@@ -51,7 +80,21 @@ class ImageNetDataset(torch.utils.data.Dataset):
         image = Image.open(image_path).convert('RGB')
         if self.transform:
             image = self.transform(image)
-        return {
+
+        if self.explanations_path is not None:
+            exp = self.get_exp(image_path.name.strip(".JPEG")).values[0]
+            exp = self.explanations_folder.parent / exp
+            if exp is not None:
+                exp = np.load(exp)
+                exp = torch.from_numpy(exp)
+                print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
+                if exp.ndim == 4:
+                    exp = exp.squeeze(0)[0]
+                elif exp.ndim == 3:
+                    exp = exp[0, :, :].unsqueeze(0)
+        else:
+            exp = None
+        row =  {
             'image': image.to(self.device),
             'image_path': str(image_path),
             'image_name': image_path.name,
@@ -60,6 +103,9 @@ class ImageNetDataset(torch.utils.data.Dataset):
             'class_name': record['class_name'],
             'class_folder': record['class_folder'],
         }
+        if exp is not None:
+            row['explanation'] = exp.to(self.device)
+        return row
 
     def __len__(self):
         return len(self.records)
