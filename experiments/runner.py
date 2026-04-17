@@ -92,8 +92,7 @@ class ExperimentRunner:
         dataset_path: str,
         num_samples: int = 100,
         batch_size: int = 32,
-        mask_type: Optional[str] = None,
-        mask_file: Optional[str] = None,
+        mask_folder: Optional[str] = None,
         attack_params: Optional[Dict] = None,
         save_adversarial: bool = True,
     ) -> Dict:
@@ -116,7 +115,7 @@ class ExperimentRunner:
         self.logger.info(f"Starting experiment: {attack_name} on {model_name}")
         self.logger.info(f"Dataset: {dataset_path}")
         self.logger.info(f"Samples: {num_samples}, Batch size: {batch_size}")
-        self.logger.info(f"Mask type: {mask_type}") # future use: signal for multiple explanations or resp
+        self.logger.info(f"Mask folder: {mask_folder}") # future use: signal for multiple explanations or resp
 
         # Load dataset
         self.logger.info("Loading dataset...")
@@ -128,6 +127,9 @@ class ExperimentRunner:
         if num_samples > len(dataset):
             num_samples = len(dataset)
             self.logger.warning(f"num_samples reduced to {num_samples}")
+
+        if mask_folder is not None:
+            dataset.load_explanations(mask_folder, model_name)
         
         # Create a sampler for subset
         from torch.utils.data import Subset
@@ -148,12 +150,6 @@ class ExperimentRunner:
         sample_data = dataset[0]
         img_shape = sample_data['image'].shape
         logging.info(f"Image shape: {img_shape}")
-        
-        # Get mask
-        mask = None
-        if mask_file is not None:
-            self.logger.info(f"Loading mask from file: {mask_file}")
-            mask = load_from_file(mask_file)
 
         
         # Run attacks
@@ -162,7 +158,7 @@ class ExperimentRunner:
             'metadata': {
                 'model': model_name,
                 'attack': attack_name,
-                'mask_type': mask_type,
+                'mask_folder': mask_folder,
                 'num_samples': num_samples,
                 'timestamp': datetime.now().isoformat(),
             },
@@ -183,13 +179,15 @@ class ExperimentRunner:
                 batch_start = time.time()
                 
                 images = batch['image'].to(self.device)
+                if mask_folder is not None:
+                    mask = batch['explanation'].to(self.device)
 
                 # Get original predictions
                 logits_clean = F.softmax(model(images), dim=1)
                 preds_score, pred_label = torch.topk(logits_clean, 1)
                 
                 # Run attack
-                if mask is not None:
+                if mask_folder is not None:
                     try:
                         images_adv = attack(images, pred_label, mask=mask)
                     except TypeError:
@@ -320,10 +318,10 @@ def parse_args():
     parser.add_argument('--popsize', type=int, default=10, help='OnePixel: population size')
 
     parser.add_argument(
-        '--mask-file',
+        '--mask-folder',
         type=str,
         default=None,
-        help='Path to custom mask file (.pt or .npy)'
+        help='Path to custom mask files (.pt or .npy)'
     )
     
     # Experiment
@@ -368,7 +366,7 @@ if __name__ == '__main__':
         dataset_path=args.dataset_path,
         num_samples=args.num_samples,
         batch_size=args.batch_size,
-        mask_file=args.mask_file,
+        mask_folder=args.mask_folder,
         attack_params=attack_params,
         save_adversarial=not args.no_save_adversarial,
     )
