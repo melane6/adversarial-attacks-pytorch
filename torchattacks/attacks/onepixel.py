@@ -76,7 +76,7 @@ class OnePixel(Attack):
             if mask.dtype != torch.bool:
                 raise ValueError(f"Mask dtype {mask.dtype} must be torch.bool")
 
-            mask_np = mask.detach().cpu().numpy()[0]
+            mask_np = mask.detach().cpu().numpy()
             allowed_coords = [np.argwhere(mask_np[i]) for i in range(batch_size)]
             logger.info("OnePixel: mask applied. Allowed pixels per image:")
             for i, coords in enumerate(allowed_coords):
