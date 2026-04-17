@@ -36,6 +36,11 @@ class OnePixel(Attack):
         >>> attack = torchattacks.OnePixel(model, pixels=1, steps=10, popsize=10, inf_batch=128)
         >>> adv_images = attack(images, labels)
 
+        >>> # With boolean mask to restrict attack to certain areas
+        >>> mask = torch.zeros(224, 224, dtype=torch.bool)
+        >>> mask[50:150, 60:160] = True  # Only attack this region
+        >>> adv_images = attack(images, labels, mask=mask)
+
     """
 
     def __init__(self, model, pixels=1, steps=10, popsize=10, inf_batch=128):
@@ -45,8 +50,10 @@ class OnePixel(Attack):
         self.popsize = popsize
         self.inf_batch = inf_batch
         self.supported_mode = ["default", "targeted"]
+        self.explanation = None
+        self.responsibility = None
 
-    def forward(self, images, labels):
+    def forward(self, images, labels, mask=None):
         r"""
         Overridden.
         """
@@ -59,31 +66,70 @@ class OnePixel(Attack):
 
         batch_size, channel, height, width = images.shape
 
-        bounds = [(0, height), (0, width)] + [(0, 1)] * channel
+        allowed_coords = None
+        if mask is not None:
+            if isinstance(mask, torch.Tensor):
+                mask = mask.to(torch.bool)
+            else:
+                mask = torch.tensor(mask, dtype=torch.bool)
+            if mask.dtype != torch.bool:
+                raise ValueError(f"Mask dtype {mask.dtype} must be torch.bool")
+
+            mask_np = mask.detach().cpu().numpy()[0]
+            allowed_coords = [np.argwhere(mask_np[i]) for i in range(batch_size)]
+            print(
+                f"Mask shape: {mask.shape}, allowed coordinates: {allowed_coords[0].shape[0]} per image and length {len(allowed_coords)}")
+
+            # Check that each batch image has at least one allowed pixel
+            for i, coords in enumerate(allowed_coords):
+                if coords.shape[0] == 0:
+                    raise ValueError(
+                        f"Mask contains no True values for image {i}. Cannot attack empty region. "
+                        f"Mask shape: {mask.shape}, non-zero count: {mask.sum().item()}"
+                    )
+
+            logger.info(
+                "OnePixel: mask applied. Allowed pixels: %d / %d (%.2f%%)",
+                allowed_coords[0].shape[0],
+                height * width,
+                100.0 * allowed_coords[0].shape[0] / (height * width),
+            )
+
+        # BOUNDS setupo
+        if allowed_coords is None:
+            # (row, col) pairs - before for whole image
+            bounds = [(0, height - 1), (0, width - 1)] + [(0, 1)] * channel
+        else:
+            # search over allowed coordinates
+            num_allowed = allowed_coords[0].shape[0]
+            bounds = [(0, num_allowed - 1)] + [(0, 1)] * channel
+
         bounds = bounds * self.pixels
 
         popmul = max(1, int(self.popsize / len(bounds)))
 
         logger.info(
-            "OnePixel: batch_size=%d pixels=%d steps=%d popsize=%d inf_batch=%d",
+            "OnePixel: batch_size=%d pixels=%d steps=%d popsize=%d inf_batch=%d bounds=%d",
             batch_size,
             self.pixels,
             self.steps,
             self.popsize,
             self.inf_batch,
+            len(bounds),
         )
 
         adv_images = []
         for idx in range(batch_size):
-            image, label = images[idx : idx + 1], labels[idx : idx + 1]
-            logger.debug("OnePixel: starting attack for image %d/%d label=%s", idx + 1, batch_size, int(label.item()))
+            image, label = images[idx: idx + 1], labels[idx: idx + 1]
+
+            image_allowed_coords = allowed_coords[idx] if allowed_coords is not None else None
 
             if self.targeted:
-                target_label = target_labels[idx : idx + 1]
+                target_label = target_labels[idx: idx + 1]
                 gen = [0]
 
                 def func(delta):
-                    return self._loss(image, target_label, delta)
+                    return self._loss(image, target_label, delta, image_allowed_coords)
 
                 def callback(delta, convergence, image_idx=idx, gen_ref=gen):
                     gen_ref[0] += 1
@@ -94,7 +140,7 @@ class OnePixel(Attack):
                         gen_ref[0],
                         convergence,
                     )
-                    success = self._attack_success(image, target_label, delta)
+                    success = self._attack_success(image, target_label, delta, image_allowed_coords)
                     if success:
                         logger.debug(
                             "OnePixel: attack success for image %d at generation %d",
@@ -107,7 +153,7 @@ class OnePixel(Attack):
                 gen = [0]
 
                 def func(delta):
-                    return self._loss(image, label, delta)
+                    return self._loss(image, label, delta, image_allowed_coords)
 
                 def callback(delta, convergence, image_idx=idx, gen_ref=gen):
                     gen_ref[0] += 1
@@ -118,7 +164,7 @@ class OnePixel(Attack):
                         gen_ref[0],
                         convergence,
                     )
-                    success = self._attack_success(image, label, delta)
+                    success = self._attack_success(image, label, delta, image_allowed_coords)
                     if success:
                         logger.debug(
                             "OnePixel: attack success for image %d at generation %d",
@@ -138,23 +184,23 @@ class OnePixel(Attack):
                 atol=-1,
                 polish=False,
             ).x
-            delta = np.split(delta, len(delta) / len(bounds))
-            adv_image = self._perturb(image, delta)
+            delta = np.split(delta, len(delta) // len(bounds))
+            adv_image = self._perturb(image, delta, image_allowed_coords)
             adv_images.append(adv_image)
 
         adv_images = torch.cat(adv_images)
         return adv_images
 
-    def _loss(self, image, label, delta):
-        adv_images = self._perturb(image, delta)  # Mutiple delta
+    def _loss(self, image, label, delta, allowed_coords=None):
+        adv_images = self._perturb(image, delta, allowed_coords)
         prob = self._get_prob(adv_images)[:, label]
         if self.targeted:
             return 1 - prob  # If targeted, increase prob
         else:
             return prob  # If non-targeted, decrease prob
 
-    def _attack_success(self, image, label, delta):
-        adv_image = self._perturb(image, delta)  # Single delta
+    def _attack_success(self, image, label, delta, allowed_coords=None):
+        adv_image = self._perturb(image, delta, allowed_coords)
         prob = self._get_prob(adv_image)
         pre = np.argmax(prob)
         if self.targeted and (pre == label):
@@ -174,18 +220,27 @@ class OnePixel(Attack):
         prob = F.softmax(outs, dim=1)
         return prob.detach().cpu().numpy()
 
-    def _perturb(self, image, delta):
+    def _perturb(self, image, delta, allowed_coords=None):
         delta = np.array(delta)
         if len(delta.shape) < 2:
             delta = np.array([delta])
         num_delta = len(delta)
         adv_image = image.clone().detach().to(self.device)
         adv_images = torch.cat([adv_image] * num_delta, dim=0)
+
         for idx in range(num_delta):
             pixel_info = delta[idx].reshape(self.pixels, -1)
             for pixel in pixel_info:
-                pos_x, pos_y = pixel[:2]
-                channel_v = pixel[2:]
+                if allowed_coords is None:
+                    pos_x, pos_y = pixel[:2]
+                    channel_v = pixel[2:]
+                    row, col = int(pos_x), int(pos_y)
+                else:
+                    # indexed pixel[0] - is the coordinate
+                    coord_idx = int(np.clip(np.rint(pixel[0]), 0, len(allowed_coords) - 1))
+                    row, col = allowed_coords[coord_idx]
+                    channel_v = pixel[1:]
+
                 for channel, v in enumerate(channel_v):
-                    adv_images[idx, channel, int(pos_x), int(pos_y)] = v
+                    adv_images[idx, channel, row, col] = v
         return adv_images
