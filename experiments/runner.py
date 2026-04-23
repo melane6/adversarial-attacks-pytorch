@@ -96,6 +96,7 @@ class ExperimentRunner:
         attack_params: Optional[Dict] = None,
         save_adversarial: bool = True,
         ranking: bool = False,
+        num_exp: int = 1,
     ) -> Dict:
         """
         Run experiment.
@@ -109,7 +110,8 @@ class ExperimentRunner:
             mask_folder: Path to folder containing mask files (.pt or .npy)
             attack_params: Additional attack parameters
             save_adversarial: Whether to save adversarial examples
-            heatmap: Whether to use heatmap for masking
+            ranking: Whether to use heatmap for masking
+            num_exp: Number of explanations to use
         
         Returns:
             Results dictionary
@@ -125,6 +127,7 @@ class ExperimentRunner:
             Path(dataset_path),
             transform=get_preprocessing(model_name),
             ranking=ranking,
+            num_exp=num_exp,
         )
         
         if num_samples > len(dataset):
@@ -335,7 +338,9 @@ def parse_args():
 
     # use responsibility map or ranking that indicates which regions are important
     parser.add_argument('--ranking', type=bool, default=False, help='Use heatmap that indicates which importance')
-    
+    # Number of Explanation
+    parser.add_argument('--num-exp', type=int, default=1, help='Number of explanations')
+
     # Experiment
     parser.add_argument('--num-samples', type=int, default=100, help='Number of samples to attack')
     parser.add_argument('--batch-size', type=int, default=32, help='Batch size')
@@ -381,5 +386,6 @@ if __name__ == '__main__':
         mask_folder=args.mask_folder,
         attack_params=attack_params,
         save_adversarial=not args.no_save_adversarial,
-        ranking=args.ranking
+        ranking=args.ranking,
+        num_exp=args.num_exp
     )

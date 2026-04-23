@@ -8,7 +8,8 @@ import numpy as np
 from PIL import Image
 
 class ImageNetDataset(torch.utils.data.Dataset):
-    def __init__(self, dataset_path: Path, transform=None, device=None, ranking: bool = False):
+    def __init__(self, dataset_path: Path, transform=None, device=None, ranking: bool = False,
+                 num_exp: int = 1):
         self.dataset_path = dataset_path
         self.transform = transform
         self.json_path = dataset_path / "imagenet_class_index.json"
@@ -25,6 +26,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.exp_model = None
 
         self.ranking = ranking
+        self.num_exp = num_exp
 
     def load_records(self):
         self.records_path = self.dataset_path / "dataset.json"
@@ -60,15 +62,15 @@ class ImageNetDataset(torch.utils.data.Dataset):
         else:
             raise ValueError(f"Explanations file not found: {path}")
 
-    def get_exp(self, image_name, num_exp=1):
+    def get_exp(self, image_name):
         if self.explanations is None:
             raise ValueError("Explanations not loaded")
         row =  self.explanations[self.explanations['path'].str.contains(image_name)]
         if len(row) == 0:
             return None
         else:
-            if num_exp > 1:
-                return [row[f'explanation_{i}'] for i in range(num_exp)]
+            if self.num_exp > 1:
+                return [row[f'explanation_{i}'].values[0] for i in range(self.num_exp)]
             else:
                 return row['explanation_0'].values[0] # get the first one out
 
@@ -81,12 +83,23 @@ class ImageNetDataset(torch.utils.data.Dataset):
         else:
             return row['responsibility'].values[0] # default to ReX's resp for the time being
 
-    def num_exp(self, index):
-        exp = self.get_exp(index)
-        if exp is None:
-            return 0
+    def process_exp(self, exp):
+        if self.num_exp == 1:
+            return torch.from_numpy(np.load(exp)).to(self.device)
         else:
-            return len(exp)
+            # multiple exps
+            exp = []
+            for i in range(self.num_exp):
+                if exp[i] == "":
+                    continue
+                exp[i] = torch.from_numpy(np.load(exp[i]))
+            # combine exps with OR
+            ranking = exp[0]
+            for i in range(len(exp) - 1):
+                ranking = ranking | exp[i+1]
+                ranking = ranking.to(self.device)
+            return ranking
+
 
     def __getitem__(self, index):
         record = self.records.iloc[index]
@@ -99,12 +112,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
             exp = self.get_exp(image_path.name.strip(".JPEG"))
             exp = self.explanations_folder.parent / exp
             if exp is not None:
-                exp = np.load(exp)
-                exp = torch.from_numpy(exp)
-                if exp.ndim == 4:
-                    exp = exp.squeeze(0)[0]
-                elif exp.ndim == 3:
-                    exp = exp[0, :, :]
+                exp = self.process_exp(exp)
                 print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
             exp = None
