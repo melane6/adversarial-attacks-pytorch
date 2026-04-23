@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 
 class ImageNetDataset(torch.utils.data.Dataset):
-    def __init__(self, dataset_path: Path, transform=None, device=None):
+    def __init__(self, dataset_path: Path, transform=None, device=None, ranking: bool = False):
         self.dataset_path = dataset_path
         self.transform = transform
         self.json_path = dataset_path / "imagenet_class_index.json"
@@ -23,6 +23,8 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.explanations_folder = None
         self.explanations = None
         self.exp_model = None
+
+        self.ranking = ranking
 
     def load_records(self):
         self.records_path = self.dataset_path / "dataset.json"
@@ -58,14 +60,26 @@ class ImageNetDataset(torch.utils.data.Dataset):
         else:
             raise ValueError(f"Explanations file not found: {path}")
 
-    def get_exp(self, image_name):
+    def get_exp(self, image_name, num_exp=1):
         if self.explanations is None:
             raise ValueError("Explanations not loaded")
         row =  self.explanations[self.explanations['path'].str.contains(image_name)]
         if len(row) == 0:
             return None
         else:
-            return row['explanation_0'] # get the first one out
+            if num_exp > 1:
+                return [row[f'explanation_{i}'] for i in range(num_exp)]
+            else:
+                return row['explanation_0'].values[0] # get the first one out
+
+    def get_ranking(self, image_name):
+        if self.explanations is None:
+            raise ValueError("Explanations not loaded")
+        row =  self.explanations[self.explanations['path'].str.contains(image_name)]
+        if len(row) == 0:
+            return None
+        else:
+            return row['responsibility'].values[0] # default to ReX's resp for the time being
 
     def num_exp(self, index):
         exp = self.get_exp(index)
@@ -82,7 +96,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
             image = self.transform(image)
 
         if self.explanations_path is not None:
-            exp = self.get_exp(image_path.name.strip(".JPEG")).values[0]
+            exp = self.get_exp(image_path.name.strip(".JPEG"))
             exp = self.explanations_folder.parent / exp
             if exp is not None:
                 exp = np.load(exp)
@@ -105,6 +119,9 @@ class ImageNetDataset(torch.utils.data.Dataset):
         }
         if exp is not None:
             row['explanation'] = exp.to(self.device)
+
+        if self.ranking:
+            row['ranking'] = self.get_ranking(image_path.name.strip(".JPEG"))
         return row
 
     def __len__(self):

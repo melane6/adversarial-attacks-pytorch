@@ -95,6 +95,7 @@ class ExperimentRunner:
         mask_folder: Optional[str] = None,
         attack_params: Optional[Dict] = None,
         save_adversarial: bool = True,
+        ranking: bool = False,
     ) -> Dict:
         """
         Run experiment.
@@ -105,9 +106,10 @@ class ExperimentRunner:
             dataset_path: Path to dataset (dataset.json for mini-imagenet)
             num_samples: Number of samples to attack
             batch_size: Batch size for processing
-            mask_file: Path to mask file
+            mask_folder: Path to folder containing mask files (.pt or .npy)
             attack_params: Additional attack parameters
             save_adversarial: Whether to save adversarial examples
+            heatmap: Whether to use heatmap for masking
         
         Returns:
             Results dictionary
@@ -121,7 +123,8 @@ class ExperimentRunner:
         self.logger.info("Loading dataset...")
         dataset = ImageNetDataset( # assume ImageNetDataset
             Path(dataset_path),
-            transform=get_preprocessing(model_name)
+            transform=get_preprocessing(model_name),
+            ranking=ranking,
         )
         
         if num_samples > len(dataset):
@@ -181,6 +184,12 @@ class ExperimentRunner:
                 images = batch['image'].to(self.device)
                 if mask_folder is not None:
                     mask = batch['explanation'].to(self.device)
+
+                if ranking:
+                    ranking = batch['ranking'].to(self.device)
+                    # make sure the ranking is zero in FALSE region of the mask
+                    ranking = torch.where(mask, ranking, 0)
+                    mask = (mask, ranking) # mask is a tuple of (mask, ranking)
 
                 # Get original predictions
                 logits_clean = F.softmax(model(images), dim=1)
@@ -323,6 +332,9 @@ def parse_args():
         default=None,
         help='Path to custom mask files (.pt or .npy)'
     )
+
+    # use responsibility map or ranking that indicates which regions are important
+    parser.add_argument('--ranking', type=bool, default=False, help='Use heatmap that indicates which importance')
     
     # Experiment
     parser.add_argument('--num-samples', type=int, default=100, help='Number of samples to attack')
@@ -369,4 +381,5 @@ if __name__ == '__main__':
         mask_folder=args.mask_folder,
         attack_params=attack_params,
         save_adversarial=not args.no_save_adversarial,
+        ranking=args.ranking
     )
