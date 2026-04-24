@@ -266,10 +266,9 @@ class OnePixel(Attack):
             return base_idx  # Fallback: all weights zero
         w = w / w_sum  # Normalize to probability distribution
         cumulsum = np.cumsum(w)
-        # Scale base_idx from [0, num_coords-1] to [0, 1]
         prob_val = (base_idx + 0.5) / num_coords
         # Find which bucket this falls into
-        idx = np.searchsorted(cumulsum, prob_val, side='left')
+        idx = np.searchsorted(cumulsum, prob_val, side='right')
         return min(idx, num_coords - 1)
 
     def _perturb(self, image, delta, allowed_coords=None):
