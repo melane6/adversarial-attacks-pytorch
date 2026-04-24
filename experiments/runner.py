@@ -189,10 +189,10 @@ class ExperimentRunner:
                     mask = batch['explanation'].to(self.device)
 
                 if ranking:
-                    ranking = batch['ranking'].to(self.device)
+                    ranking_batch = batch['ranking'].to(self.device)
                     # make sure the ranking is zero in FALSE region of the mask
-                    ranking = torch.where(mask, ranking, 0)
-                    mask = (mask, ranking) # mask is a tuple of (mask, ranking)
+                    ranking_batch = torch.where(mask, ranking_batch, 0)
+                    mask = (mask, ranking_batch) # mask is a tuple of (mask, ranking)
 
                 # Get original predictions
                 logits_clean = F.softmax(model(images), dim=1)
