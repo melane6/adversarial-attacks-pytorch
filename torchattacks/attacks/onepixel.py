@@ -70,7 +70,6 @@ class OnePixel(Attack):
         allowed_coords = None
         priority_weights = None
         if mask is not None:
-            logger.info(f"OnePixel: mask provided: Shape: {mask.shape}")
             # Handle two input formats: bool mask or (bool_mask, priority_weights)
             if isinstance(mask, (tuple, list)) and len(mask) == 2:
                 mask_bool, mask_priority = mask
