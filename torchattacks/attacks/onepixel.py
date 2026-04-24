@@ -75,6 +75,8 @@ class OnePixel(Attack):
             if isinstance(mask, (tuple, list)) and len(mask) == 2:
                 mask_bool, mask_priority = mask
                 mask = mask_bool
+                logger.info(f"OnePixel: mask provided: Shape: {mask.shape}, dtype: {mask.dtype}")
+                logger.info(f"OnePixel: mask priority provided: Shape: {mask_priority.shape}")
                 if mask_priority is not None:
                     if isinstance(mask_priority, torch.Tensor):
                         mask_priority = mask_priority.detach().cpu().numpy()

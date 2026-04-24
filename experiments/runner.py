@@ -266,7 +266,7 @@ class ExperimentRunner:
                     with open(results_path, 'w') as f:
                         json.dump(results, f, indent=2)
         # Calculate statistics
-        attack_success_rate = np.mean(attack_successes) if attack_successes else 0.0
+        attack_success_rate = np.sum(attack_successes) if attack_successes else 0.0
         results['statistics'] = {
             'attack_success_rate': float(attack_success_rate),
             'mean_perturbation_l2': float(np.mean(perturbations_l2)) if perturbations_l2 else 0.0,

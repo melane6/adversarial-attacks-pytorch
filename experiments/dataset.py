@@ -75,26 +75,24 @@ class ImageNetDataset(torch.utils.data.Dataset):
                 return row['explanation_0'].values[0] # get the first one out
 
     def get_ranking(self, image_name):
-        if self.explanations is None:
-            raise ValueError("Explanations not loaded")
-        row =  self.explanations[self.explanations['path'].str.contains(image_name)]
-        if len(row) == 0:
-            return None
-        else:
-            return row['responsibility'].values[0] # default to ReX's resp for the time being
+        resp_path = self.get_exp(image_name).replace("explanation_0", "responsibility")
+        return resp_path
 
     def _exp_shape(self, exp):
         if exp.ndim == 4:
             # (batch, channel, height, width)
-            return exp[0]
+            return exp.unsqueeze(1)[0]
+        elif exp.ndim == 2:
+            # (height, width)
+            return exp
         else:
             # (channel, height, width)
-            return exp
+            return exp[0]
 
     def process_exp(self, exp):
         if self.num_exp == 1:
             exp = self.explanations_folder.parent / exp
-            return torch.from_numpy(np.load(exp)).to(self.device)
+            return self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
         else:
             for i in range(self.num_exp):
                 exp[i] = self.explanations_folder.parent / exp[i]
@@ -104,6 +102,11 @@ class ImageNetDataset(torch.utils.data.Dataset):
             for i in range(len(exp) - 1):
                 ranking = ranking | self._exp_shape(exp[i + 1])
             return ranking.to(self.device)
+
+    def process_ranking(self, ranking):
+        resp = torch.from_numpy(np.load(self.explanations_folder.parent / ranking)).to(self.device)
+        print(f"Loaded ranking for {ranking}: shape {resp.shape}")
+        return self._exp_shape(resp)
 
 
     def __getitem__(self, index):
@@ -133,7 +136,8 @@ class ImageNetDataset(torch.utils.data.Dataset):
             row['explanation'] = exp.to(self.device)
 
         if self.ranking:
-            row['ranking'] = self.get_ranking(image_path.name.strip(".JPEG"))
+            ranking_path = self.get_ranking(image_path.name.strip(".JPEG"))
+            row['ranking'] = self.process_ranking(ranking_path)
         return row
 
     def __len__(self):
