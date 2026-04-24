@@ -83,22 +83,27 @@ class ImageNetDataset(torch.utils.data.Dataset):
         else:
             return row['responsibility'].values[0] # default to ReX's resp for the time being
 
+    def _exp_shape(self, exp):
+        if exp.ndim == 4:
+            # (batch, channel, height, width)
+            return exp[0]
+        else:
+            # (channel, height, width)
+            return exp
+
     def process_exp(self, exp):
         if self.num_exp == 1:
+            exp = self.explanations_folder.parent / exp
             return torch.from_numpy(np.load(exp)).to(self.device)
         else:
-            # multiple exps
-            exp = []
             for i in range(self.num_exp):
-                if exp[i] == "":
-                    continue
-                exp[i] = torch.from_numpy(np.load(exp[i]))
+                exp[i] = self.explanations_folder.parent / exp[i]
+                exp[i] = torch.from_numpy(np.load(exp[i])).to(self.device)
             # combine exps with OR
-            ranking = exp[0]
+            ranking = self._exp_shape(exp[0])
             for i in range(len(exp) - 1):
-                ranking = ranking | exp[i+1]
-                ranking = ranking.to(self.device)
-            return ranking
+                ranking = ranking | self._exp_shape(exp[i + 1])
+            return ranking.to(self.device)
 
 
     def __getitem__(self, index):
@@ -110,7 +115,6 @@ class ImageNetDataset(torch.utils.data.Dataset):
 
         if self.explanations_path is not None:
             exp = self.get_exp(image_path.name.strip(".JPEG"))
-            exp = self.explanations_folder.parent / exp
             if exp is not None:
                 exp = self.process_exp(exp)
                 print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
