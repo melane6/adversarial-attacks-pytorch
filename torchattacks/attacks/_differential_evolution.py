@@ -46,6 +46,7 @@ def differential_evolution(
     polish=True,
     init="latinhypercube",
     atol=0,
+    probability=None
 ):
     """Finds the global minimum of a multivariate function.
     Differential Evolution is stochastic in nature (does not use gradient
@@ -152,6 +153,10 @@ def differential_evolution(
         ``np.std(pop) <= atol + tol * np.abs(np.mean(population_energies))``,
         where and `atol` and `tol` are the absolute and relative tolerance
         respectively.
+    probability : float array, optional
+        An array of shape (M,) where M is the number of population members, with
+        probability[i] being the probability of selecting population member i
+        as a parent for the next generation.
     Returns
     -------
     res : OptimizeResult
@@ -237,6 +242,7 @@ def differential_evolution(
         disp=disp,
         init=init,
         atol=atol,
+        probability=probability,
     )
     return solver.solve()
 
@@ -391,6 +397,7 @@ class DifferentialEvolutionSolver(object):
         polish=True,
         init="latinhypercube",
         atol=0,
+        probability=None,
     ):
 
         if strategy in self._binomial:
@@ -480,6 +487,7 @@ class DifferentialEvolutionSolver(object):
             self.init_population_array(init)
 
         self.disp = disp
+        self.probability = probability
 
     def init_population_lhs(self):
         """
@@ -968,6 +976,16 @@ class DifferentialEvolutionSolver(object):
         """
         idxs = list(range(self.num_population_members))
         idxs.remove(candidate)
-        self.random_number_generator.shuffle(idxs)
-        idxs = idxs[:number_samples]
-        return idxs
+        if self.probability is not None:
+            probs = np.delete(self.probability, candidate)
+            prob_sum = np.sum(probs)
+            if prob_sum > 0:
+                probs = probs / prob_sum
+            else:
+                probs = np.ones(len(probs)) / len(probs)
+            selected = np.random.choice(idxs, size=number_samples, replace=False, p=probs)
+            return list(selected)
+        else:
+            self.random_number_generator.shuffle(idxs)
+            idxs = idxs[:number_samples]
+            return idxs

@@ -117,27 +117,13 @@ class OnePixel(Attack):
             )
             self.mask_priority = priority_weights
 
-        # BOUNDS setupo
-        if allowed_coords is None:
-            # (row, col) pairs - before for whole image
-            bounds = [(0, height - 1), (0, width - 1)] + [(0, 1)] * channel
-        else:
-            # search over allowed coordinates
-            num_allowed = allowed_coords[0].shape[0]
-            bounds = [(0, num_allowed - 1)] + [(0, 1)] * channel
-
-        bounds = bounds * self.pixels
-
-        popmul = max(1, int(self.popsize / len(bounds)))
-
         logger.info(
-            "OnePixel: batch_size=%d pixels=%d steps=%d popsize=%d inf_batch=%d bounds=%d",
+            "OnePixel: batch_size=%d pixels=%d steps=%d popsize=%d inf_batch=%d",
             batch_size,
             self.pixels,
             self.steps,
             self.popsize,
             self.inf_batch,
-            len(bounds),
         )
 
         adv_images = []
@@ -145,6 +131,24 @@ class OnePixel(Attack):
             image, label = images[idx: idx + 1], labels[idx: idx + 1]
 
             image_allowed_coords = allowed_coords[idx] if allowed_coords is not None else None
+
+            # BOUNDS setup per-image (minimal overhead)
+            if allowed_coords is None:
+                bounds = [(0, height - 1), (0, width - 1)] + [(0, 1)] * channel
+            else:
+                num_allowed = len(image_allowed_coords)
+                bounds = [(0, num_allowed - 1)] + [(0, 1)] * channel
+
+            bounds = bounds * self.pixels
+            popmul = max(1, int(self.popsize / len(bounds)))
+
+            # Extract per-image priority weights if provided
+            image_priority_weights = None
+            if priority_weights is not None:
+                if priority_weights.ndim > 1:
+                    image_priority_weights = priority_weights[idx]
+                else:
+                    image_priority_weights = priority_weights
 
             if self.targeted:
                 target_label = target_labels[idx: idx + 1]
@@ -205,6 +209,7 @@ class OnePixel(Attack):
                 recombination=1,
                 atol=-1,
                 polish=False,
+                probability=image_priority_weights,
             ).x
             delta = np.split(delta, len(delta) // len(bounds))
             adv_image = self._perturb(image, delta, image_allowed_coords)
@@ -242,35 +247,6 @@ class OnePixel(Attack):
         prob = F.softmax(outs, dim=1)
         return prob.detach().cpu().numpy()
 
-    def _weight_index_mapping(self, base_idx, allowed_coords, priority_weights):
-        """
-        Map continuous DE index to discrete indices using priority weights.
-        Pixels with higher priority are more likely to be selected.
-        Uses inverse-transform sampling on normalized weights.
-
-        Args:
-            base_idx: Continuous index from DE [0, len(allowed_coords)-1]
-            allowed_coords: Array of (row, col) coordinates
-            priority_weights: Array of priority weights for each coordinate
-
-        Returns:
-            Weighted index into allowed_coords based on priority
-        """
-        num_coords = len(allowed_coords)
-        # Normalize weights to [0, 1] range
-        w = np.asarray(priority_weights).flatten()[:num_coords]
-        if w.size == 0:
-            return base_idx
-        w_sum = np.sum(w)
-        if w_sum <= 0:
-            return base_idx  # Fallback: all weights zero
-        w = w / w_sum  # Normalize to probability distribution
-        cumulsum = np.cumsum(w)
-        prob_val = (base_idx + 0.5) / num_coords
-        # Find which bucket this falls into
-        idx = np.searchsorted(cumulsum, prob_val, side='right')
-        return min(idx, num_coords - 1)
-
     def _perturb(self, image, delta, allowed_coords=None):
         delta = np.array(delta)
         if len(delta.shape) < 2:
@@ -288,14 +264,10 @@ class OnePixel(Attack):
                     row, col = int(pos_x), int(pos_y)
                 else:
                     # indexed pixel[0] - is the coordinate index
-                    # With priority weights, map DE continuous value to discrete indices
                     coord_idx = int(np.clip(np.rint(pixel[0]), 0, len(allowed_coords) - 1))
-                    # If priority weights exist, map continuous index to weighted indices
-                    if self.mask_priority is not None:
-                        coord_idx = self._weight_index_mapping(coord_idx, allowed_coords, self.mask_priority)
                     row, col = allowed_coords[coord_idx]
                     channel_v = pixel[1:]
-
+                logger.debug("OnePixel: pixel %d/%d row=%d col=%d", idx + 1, num_delta, row, col)
                 for channel, v in enumerate(channel_v):
                     adv_images[idx, channel, row, col] = v
         return adv_images
