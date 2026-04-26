@@ -81,7 +81,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
     def _exp_shape(self, exp):
         if exp.ndim == 4:
             # (batch, channel, height, width)
-            return exp.unsqueeze(1)[0]
+            return exp.squeeze(0)[0]
         elif exp.ndim == 2:
             # (height, width)
             return exp
