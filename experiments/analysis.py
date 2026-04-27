@@ -8,8 +8,9 @@ import numpy as np
 import pandas as pd
 import torch
 import matplotlib.pyplot as plt
+from keras.src.ops import mean
 from scipy import stats
-
+from tqdm import tqdm
 
 @dataclass
 class ComparisonMetrics:
@@ -349,7 +350,7 @@ class Analysis:
         """Analyze all successful attacks and compute metrics."""
         results = []
 
-        for idx, sample in self.samples.iterrows():
+        for idx, sample in tqdm(self.samples.iterrows(), total=len(self.samples), desc="Analyzing samples"):
             if not sample.get('attack_success', False):
                 continue
 
@@ -397,11 +398,13 @@ class Analysis:
     def get_summary_statistics(self, df: pd.DataFrame) -> Dict:
         """Compute summary statistics from analysis results."""
         numeric_cols = df.select_dtypes(include=[np.number]).columns
+        bool_cols = df.select_dtypes(include=[bool]).columns
+        exclude_col = ['pred_clean', 'pred_adv']
+        cols = [col for col in numeric_cols if col not in exclude_col] + list(bool_cols)
         return {
             'mean': df[numeric_cols].mean().to_dict(),
             'std': df[numeric_cols].std().to_dict(),
-            'min': df[numeric_cols].min().to_dict(),
-            'max': df[numeric_cols].max().to_dict(),
+            'count': df[numeric_cols].count().to_dict(),
         }
 
     def get_attack_success(self):
@@ -464,4 +467,12 @@ if __name__ == "__main__":
         for df, mask_key in zip(dfs, args.mask_keys):
             summary = analysis.get_summary_statistics(df)
             print(f"Summary statistics for mask {mask_key}:")
-            print(json.dumps(summary, indent=2))
+            # print table
+            summarised = pd.DataFrame()
+            summarised['mean'] = pd.DataFrame(summary['mean'], index=['mean']).T
+            summarised['std'] = pd.DataFrame(summary['std'], index=['std']).T
+            summarised['count'] = pd.DataFrame(summary['count'], index=['count']).T
+
+            print(summarised)
+            # save
+            summarised.to_csv(analysis.output_dir / f"summary_{mask_key}_{args.heatmap_key}.csv")
