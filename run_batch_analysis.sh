@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MODELS=(
-    "resnet18" "resnet50" "resnet101" "resnet152" "convnext-l"
+    "resnet18" "resnet50" "resnet101" "resnet152"
 )
 
 varients=(
@@ -28,7 +28,7 @@ for MODEL in "${MODELS[@]}"; do
             for key in "${mask_keys[@]}"; do
                 if [ -d "$ATTACK_FOLDER" ]; then
                     echo "${ATTACK_FOLDER} with variant: ${VARIANT} and mask key: ${key}"
-                    python experiments/analysis.py --json_file "$JSON_FILE" --attack_folder "$ATTACK_FOLDER" --xai_folder "$XAI_FOLDER" --mask_key "$key" --output_dir "$OUTPUT_FOLDER"
+                    python experiments/analysis.py --json_file "$JSON_FILE" --results_dir "$ATTACK_FOLDER" --xai_results "$XAI_FOLDER" --mask_keys "$key" --output_dir "$OUTPUT_FOLDER"
                 fi
             done
         fi
