@@ -418,7 +418,7 @@ def parse_args():
     parser.add_argument("--xai_results", type=str, help="Directory containing XAI results (npy and csv files).")
     parser.add_argument("--output_dir", type=str, default=None, help="Directory to save analysis results.")
     parser.add_argument("--heatmap_key", type=str, default="responsibility", help="Key for heatmap in XAI results.")
-    parser.add_argument("--mask_key", type=str, default="explanation_0", help="Key for mask in XAI results (optional).")
+    parser.add_argument("--mask_keys", type=str, metavar='N', nargs='+', help="Key(s) for mask in XAI results (optional).")
     parser.add_argument("--heatmap_threshold", type=float, default=0.5, help="Threshold for binarizing heatmap.")
     return parser.parse_args()
 
@@ -437,10 +437,31 @@ if __name__ == "__main__":
         output_dir=args.output_dir
     )
     analysis.get_attack_success()
-    analysis.analyze_all_samples(
-        heatmap_key=args.heatmap_key,
-        mask_key=args.mask_key,
-        heatmap_threshold=args.heatmap_threshold,
-        save_results=True,
-        save_visualizations=True
-    )
+
+    if len(args.mask_keys) == 0:
+        df = analysis.analyze_all_samples(
+            heatmap_key=args.heatmap_key,
+            heatmap_threshold=args.heatmap_threshold,
+            save_results=True,
+            save_visualizations=True
+        )
+        summary = analysis.get_summary_statistics(df)
+        print("Summary statistics:")
+        print(json.dumps(summary, indent=2))
+    else:
+        dfs = []
+        for mask_key in args.mask_keys:
+            df = analysis.analyze_all_samples(
+                heatmap_key=args.heatmap_key,
+                mask_key=mask_key,
+                heatmap_threshold=args.heatmap_threshold,
+                save_results=True,
+                save_visualizations=True
+            )
+            dfs.append(df)
+
+        # Summarise Results for each df
+        for df, mask_key in zip(dfs, args.mask_keys):
+            summary = analysis.get_summary_statistics(df)
+            print(f"Summary statistics for mask {mask_key}:")
+            print(json.dumps(summary, indent=2))
