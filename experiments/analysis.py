@@ -208,11 +208,7 @@ class Analysis:
         heatmap = self.get_heatmap(image_name, heatmap_key)
         perturbation = self.get_perturbation(image_name)
         mask = self.get_mask(image_name, mask_key)
-
-        print(f"Shape: heatmap={heatmap.shape}, perturbation={perturbation.shape}, mask={mask.shape}")
-
         combined_mask_heatmap = np.where(mask, heatmap, 0.0)
-        print(f"Non - zero: {np.count_nonzero(perturbation)}")
 
         # Normalize
         if normalize_heatmap:
