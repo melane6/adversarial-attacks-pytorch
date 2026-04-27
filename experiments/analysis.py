@@ -397,9 +397,9 @@ class Analysis:
         exclude_col = ['pred_clean', 'pred_adv']
         cols = [col for col in numeric_cols if col not in exclude_col] + list(bool_cols)
         return {
-            'mean': df[numeric_cols].mean().to_dict(),
-            'std': df[numeric_cols].std().to_dict(),
-            'count': df[numeric_cols].count().to_dict(),
+            'mean': df[cols].mean().to_dict(),
+            'std': df[cols].std().to_dict(),
+            'count': df[cols].count().to_dict(),
         }
 
     def get_attack_success(self):
