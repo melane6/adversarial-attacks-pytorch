@@ -135,7 +135,7 @@ class ExperimentRunner:
             self.logger.warning(f"num_samples reduced to {num_samples}")
 
         if mask_folder is not None:
-            dataset.load_explanations(mask_folder, model_name)
+            dataset.load_explanations(mask_folder, model_name, args.complete_exp)
         
         # Create a sampler for subset
         from torch.utils.data import Subset
@@ -340,6 +340,7 @@ def parse_args():
     parser.add_argument('--ranking', type=bool, default=False, help='Use heatmap that indicates which importance')
     # Number of Explanation
     parser.add_argument('--num-exp', type=int, default=1, help='Number of explanations')
+    parser.add_argument('--complete-exp', type=bool, default=False, help='Use complete explanation or not')
 
     # Experiment
     parser.add_argument('--num-samples', type=int, default=100, help='Number of samples to attack')

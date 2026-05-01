@@ -24,6 +24,8 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.explanations_folder = None
         self.explanations = None
         self.exp_model = None
+        self.exp_key = "explanation_"
+        self.exp_key_complete = None
 
         self.ranking = ranking
         self.num_exp = num_exp
@@ -53,12 +55,15 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.records = pd.DataFrame(records)
         self.records.to_json(self.dataset_path / "dataset.json", orient="records")
 
-    def load_explanations(self, path, model_name):
+    def load_explanations(self, path, model_name, complete_exp=False):
         self.exp_model = model_name
         self.explanations_path = path
         self.explanations_folder = Path(path).parent
         if Path(path).exists():
             self.explanations = pd.read_csv(path)
+            if complete_exp:
+                self.exp_key = "necessity_mask"
+                self.exp_key_complete = "complete_mask"
         else:
             raise ValueError(f"Explanations file not found: {path}")
 
@@ -70,9 +75,9 @@ class ImageNetDataset(torch.utils.data.Dataset):
             return None
         else:
             if self.num_exp > 1:
-                return [row[f'explanation_{i}'].values[0] for i in range(self.num_exp)]
+                return [row[f'{self.exp_key}{i}'].values[0] for i in range(self.num_exp)]
             else:
-                return row['explanation_0'].values[0] # get the first one out
+                return row[self.exp_key].values[0] # get the first one out
 
     def get_ranking(self, image_name):
         resp_path = self.get_exp(image_name).replace("explanation_0", "responsibility")
