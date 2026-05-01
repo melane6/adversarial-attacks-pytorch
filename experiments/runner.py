@@ -346,7 +346,7 @@ def parse_args():
     parser.add_argument('--batch-size', type=int, default=32, help='Batch size')
     parser.add_argument('--output-dir', type=str, default='./results', help='Output directory')
     parser.add_argument('--no-save-adversarial', action='store_true', help='Do not save adversarial examples')
-    parser.add_argument('--seed', type=int, default=42, help='Random seed')
+    parser.add_argument('--seed', type=int, default=0, help='Random seed')
     
     return parser.parse_args()
 

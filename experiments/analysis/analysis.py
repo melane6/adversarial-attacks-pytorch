@@ -17,18 +17,18 @@ class ComparisonMetrics:
 
     # Attack details
     location: tuple[int, int]  # Perturbation location (x, y)
-    within_mask: bool # Whether perturbation is within the mask
+    within_mask: Optional[float] # Whether perturbation is within the mask
     within_heatmap: bool # Whether perturbation is within the heatmap (heatmap > 0.5)
     heatmap_at_perturbation: float  # Mean heatmap value at perturbation location
 
-    # Relationship between Heatmap and Mask(MSPS)
-    mask_heatmap_agreement: float  # Agreement between mask and heatmap regions (heatmap > 0.5)
-    mean_heatmap_mask_value: float # Mean heatmap value within the mask
-    min_heatmap_mask_value: float # Min heatmap value within the mask
-    max_heatmap_mask_value: float # Max heatmap value within the mask
+    # Optional Relationship between Heatmap and Mask(MSPS)
+    mask_heatmap_agreement: Optional[float]  # Agreement between mask and heatmap regions (heatmap > 0.5)
+    mean_heatmap_mask_value: Optional[float] # Mean heatmap value within the mask
+    min_heatmap_mask_value: Optional[float] # Min heatmap value within the mask
+    max_heatmap_mask_value: Optional[float] # Max heatmap value within the mask
 
     # Mask
-    pixels_mask: int # Number of pixels in the mask
+    pixels_mask: Optional[float] # Number of pixels in the mask
 
 
 class Analysis:
@@ -86,6 +86,8 @@ class Analysis:
             csv_files = glob.glob(str(self.xai_results / "*.csv"))
             self.xai_results_npy = {Path(f).stem: f for f in npy_files}
             self.xai_results_csv = {Path(f).stem: pd.read_csv(f) for f in csv_files}
+            print(f"Loaded {len(npy_files)} XAI npy files and {len(csv_files)} XAI csv files from {self.xai_results}")
+            print(f"XAI npy files: {list(self.xai_results_npy.keys())}")
 
     # ============ LOADER FUNCTIONS ============
     def load_adversarial_example(self, image_name: str) -> Dict:
@@ -183,15 +185,19 @@ class Analysis:
 
         # Binarize for some metrics
         heatmap_bin = self.binarize(heatmap, heatmap_threshold)
-        perturbation_bin = self.binarize(perturbation)
-
+        perturbation_bin = perturbation
+        location = np.nonzero(perturbation)
 
         return ComparisonMetrics(
-            location=perturbation_bin,  # Get perturbation locations
-            within_mask=False,  # Will be filled if mask is provided
-            within_heatmap=heatmap_bin[perturbation_bin > 0].sum() > 0,  # Check if any perturbation is in heatmap
-            heatmap_at_perturbation=self.compute_heatmap_at_perturbation(heatmap, perturbation_bin),
-            mask_heatmap_agreement=0.0,
+            location=tuple(location),  # Get perturbation locations
+            within_heatmap=heatmap_bin[location] == 1,  # Check if any perturbation is in the heatmap
+            heatmap_at_perturbation=self.compute_heatmap_at_perturbation(heatmap, perturbation),
+            within_mask=None,
+            pixels_mask=None,
+            mask_heatmap_agreement=None,
+            mean_heatmap_mask_value=None,
+            min_heatmap_mask_value=None,
+            max_heatmap_mask_value=None,
         )
 
     def compare_with_mask(
@@ -354,22 +360,26 @@ class Analysis:
             pred_clean = sample['pred_clean']
             pred_adv = sample['pred_adv']
 
-            if mask_key:
-                metrics = self.compare_with_mask(
-                    image_name, heatmap_key, mask_key,
-                    heatmap_threshold, mask_threshold
-                )
-            else:
-                metrics = self.compare_heatmap_vs_perturbation(
-                    image_name, heatmap_key, heatmap_threshold
-                )
-            if save_visualizations:
-                fig = self.plot_comparison(
-                    image_name, heatmap_key, mask_key,
-                    heatmap_threshold, mask_threshold
-                )
-                fig.savefig(self.output_dir / f"{image_name}_{mask_key}_{heatmap_key}_comparison.png", dpi=100)
-                plt.close(fig)
+            try:
+                if mask_key:
+                    metrics = self.compare_with_mask(
+                        image_name, heatmap_key, mask_key,
+                        heatmap_threshold, mask_threshold
+                    )
+                else:
+                    metrics = self.compare_heatmap_vs_perturbation(
+                        image_name, heatmap_key, heatmap_threshold
+                    )
+                if save_visualizations:
+                    fig = self.plot_comparison(
+                            image_name, heatmap_key, mask_key,
+                            heatmap_threshold, mask_threshold
+                        )
+                    fig.savefig(self.output_dir / f"{image_name}_{mask_key}_{heatmap_key}_comparison.png", dpi=100)
+                    plt.close(fig)
+            except KeyError as e:
+                print(f"Error processing {image_name}: {e}")
+                continue
 
             result = {
                 'image_name': image_name,
@@ -393,6 +403,9 @@ class Analysis:
     def get_summary_statistics(self, df: pd.DataFrame) -> Dict:
         """Compute summary statistics from analysis results."""
         numeric_cols = df.select_dtypes(include=[np.number]).columns
+        if df['within_mask'][0] != None:
+            df['within_mask'] = df['within_mask'].map(lambda x: True if 'True' in x else False)
+        df['within_heatmap'] = df['within_heatmap'].map(lambda x: True if 'True' in x else False)
         bool_cols = df.select_dtypes(include=[bool]).columns
         exclude_col = ['pred_clean', 'pred_adv']
         cols = [col for col in numeric_cols if col not in exclude_col] + list(bool_cols)
@@ -436,7 +449,7 @@ if __name__ == "__main__":
     )
     analysis.get_attack_success()
 
-    if len(args.mask_keys) == 0:
+    if args.mask_keys == None:
         df = analysis.analyze_all_samples(
             heatmap_key=args.heatmap_key,
             heatmap_threshold=args.heatmap_threshold,
