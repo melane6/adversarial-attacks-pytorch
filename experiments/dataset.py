@@ -106,6 +106,12 @@ class ImageNetDataset(torch.utils.data.Dataset):
 
     def process_exp(self, exp):
         if self.num_exp == 1:
+            if self.exp_key_complete:
+                exp_suff = exp.replace("necessity", "explanation")
+                exp_ness = self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
+                exp = self._exp_shape(torch.from_numpy(np.load(exp_suff)).to(self.device))
+                # combine with OR - to get intersection
+                return exp_ness | exp
             return self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
         else:
             for i in range(self.num_exp):
