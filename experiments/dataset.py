@@ -24,7 +24,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.explanations_folder = None
         self.explanations = None
         self.exp_model = None
-        self.exp_key = "explanation_"
+        self.exp_key = "explanation"
         self.exp_key_complete = None
 
         self.ranking = ranking
@@ -57,27 +57,40 @@ class ImageNetDataset(torch.utils.data.Dataset):
 
     def load_explanations(self, path, model_name, complete_exp=False):
         self.exp_model = model_name
-        self.explanations_path = path
-        self.explanations_folder = Path(path).parent
-        if Path(path).exists():
-            self.explanations = pd.read_csv(path)
+        self.explanations_folder = Path(path)
+        if Path(path).is_dir():
+            print(f"Loading explanations from {path} for model {model_name}...")
             if complete_exp:
                 self.exp_key = "necessity_mask"
                 self.exp_key_complete = "complete_mask"
+            self.explanations = glob.glob(str(self.explanations_folder / f"*{self.exp_key}*.npy"))
+            print(f"Found {self.explanations} explanations")
+            if len(self.explanations) == 0:
+                raise ValueError(f"No explanations found in {path} with {self.exp_key}")
         else:
             raise ValueError(f"Explanations file not found: {path}")
 
     def get_exp(self, image_name):
         if self.explanations is None:
             raise ValueError("Explanations not loaded")
-        row =  self.explanations[self.explanations['path'].str.contains(image_name)]
-        if len(row) == 0:
+        exp_list = [exp for exp in self.explanations if image_name in exp]
+        if len(exp_list) == 0:
+            print(f"No explanation found for {image_name}")
             return None
         else:
+            print(f"Found explanation for {image_name}: {exp_list}")
             if self.num_exp > 1:
-                return [row[f'{self.exp_key}{i}'].values[0] for i in range(self.num_exp)]
+                # get _0, _1, _2 etc
+                exp_list = [exp for exp in exp_list if f"{self.exp_key}_{self.num_exp-1}" in exp]
+                if len(exp_list) == 0:
+                    print(f"No explanation found for {image_name} with {self.exp_key}_{self.num_exp-1}")
+                    return None
+                return exp_list
             else:
-                return row[self.exp_key].values[0] # get the first one out
+                # get _0
+                if self.exp_key_complete:
+                    return exp_list[0]
+                return [exp for exp in exp_list if f"{self.exp_key}_0" in exp][0]
 
     def get_ranking(self, image_name):
         resp_path = self.get_exp(image_name).replace("explanation_0", "responsibility")
@@ -96,7 +109,6 @@ class ImageNetDataset(torch.utils.data.Dataset):
 
     def process_exp(self, exp):
         if self.num_exp == 1:
-            exp = self.explanations_folder.parent / exp
             return self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
         else:
             for i in range(self.num_exp):
@@ -120,10 +132,13 @@ class ImageNetDataset(torch.utils.data.Dataset):
         image = Image.open(image_path).convert('RGB')
         if self.transform:
             image = self.transform(image)
-
-        if self.explanations_path is not None:
+        print(f"Load path: {self.explanations_folder}")
+        if self.explanations_folder is not None:
+            print(f"Loading explanation for {image_path.name}")
             exp = self.get_exp(image_path.name.strip(".JPEG"))
+            print(f"Explanation: {exp}")
             if exp is not None:
+                print(f"Processing explanation for {image_path.name}")
                 exp = self.process_exp(exp)
                 print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
