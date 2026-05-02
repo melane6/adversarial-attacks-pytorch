@@ -59,12 +59,10 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.exp_model = model_name
         self.explanations_folder = Path(path)
         if Path(path).is_dir():
-            print(f"Loading explanations from {path} for model {model_name}...")
             if complete_exp:
                 self.exp_key = "necessity_mask"
                 self.exp_key_complete = "complete_mask"
             self.explanations = glob.glob(str(self.explanations_folder / f"*{self.exp_key}*.npy"))
-            print(f"Found {self.explanations} explanations")
             if len(self.explanations) == 0:
                 raise ValueError(f"No explanations found in {path} with {self.exp_key}")
         else:
@@ -78,7 +76,6 @@ class ImageNetDataset(torch.utils.data.Dataset):
             print(f"No explanation found for {image_name}")
             return None
         else:
-            print(f"Found explanation for {image_name}: {exp_list}")
             if self.num_exp > 1:
                 # get _0, _1, _2 etc
                 exp_list = [exp for exp in exp_list if f"{self.exp_key}_{self.num_exp-1}" in exp]
