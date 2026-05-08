@@ -97,6 +97,7 @@ class ExperimentRunner:
         save_adversarial: bool = True,
         ranking: bool = False,
         num_exp: int = 1,
+        colour: List[int] = None,
     ) -> Dict:
         """
         Run experiment.
@@ -120,7 +121,8 @@ class ExperimentRunner:
         self.logger.info(f"Dataset: {dataset_path}")
         self.logger.info(f"Samples: {num_samples}, Batch size: {batch_size}")
         self.logger.info(f"Mask folder: {mask_folder}") # future use: signal for multiple explanations or resp
-
+        if colour is not None:
+            self.logger.info(f"Colour: {colour}")
         # Load dataset
         self.logger.info("Loading dataset...")
         dataset = ImageNetDataset( # assume ImageNetDataset
@@ -150,6 +152,13 @@ class ExperimentRunner:
         # Create attack
         self.logger.info("Creating attack...")
         attack_params = attack_params or {}
+        if colour is not None:
+            if len(colour) != 3:
+                raise ValueError("Colour must be a list of 3 integers")
+            # if 0-225 then transform to 0.0 - 1.0
+            if max(colour) > 1:
+                colour = [c / 255.0 for c in colour]
+            attack_params.update({'colour': colour})
         attack = get_attack(attack_name, model, **attack_params)
         
         # Get image size for mask
@@ -328,6 +337,7 @@ def parse_args():
     parser.add_argument('--pixels', type=int, default=1, help='OnePixel: number of pixels')
     parser.add_argument('--steps', type=int, default=10, help='OnePixel: optimization steps')
     parser.add_argument('--popsize', type=int, default=10, help='OnePixel: population size')
+    parser.add_argument('--colour', type=int, nargs=3, default=None, help='OnePixel: colour to use for attack (R G B)')
 
     parser.add_argument(
         '--mask-folder',
@@ -388,5 +398,6 @@ if __name__ == '__main__':
         attack_params=attack_params,
         save_adversarial=not args.no_save_adversarial,
         ranking=args.ranking,
-        num_exp=args.num_exp
+        num_exp=args.num_exp,
+        colour=args.colour,
     )

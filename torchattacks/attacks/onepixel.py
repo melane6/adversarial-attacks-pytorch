@@ -43,7 +43,7 @@ class OnePixel(Attack):
 
     """
 
-    def __init__(self, model, pixels=1, steps=10, popsize=10, inf_batch=128):
+    def __init__(self, model, pixels=1, steps=10, popsize=10, inf_batch=128, colour=None):
         super().__init__("OnePixel", model)
         self.pixels = pixels
         self.steps = steps
@@ -53,6 +53,7 @@ class OnePixel(Attack):
         self.explanation = None
         self.responsibility = None
         self.mask_priority = None  # Priority weights for allowed coordinates
+        self.colour = colour
 
     def forward(self, images, labels, mask=None):
         r"""
@@ -134,10 +135,23 @@ class OnePixel(Attack):
 
             # BOUNDS setup per-image (minimal overhead)
             if allowed_coords is None:
-                bounds = [(0, height - 1), (0, width - 1)] + [(0, 1)] * channel
+                if self.colour is not None:
+                    # Restrict channel bounds to specific colour
+                    assert isinstance(self.colour, list) and len(self.colour) == 3
+                    channel_bounds = [(self.colour[i], self.colour[i]) for i in range(channel)]
+                    bounds = [(0, height - 1), (0, width - 1)] + channel_bounds
+                else:
+                    bounds = [(0, height - 1), (0, width - 1)] + [(0, 1)] * channel
             else:
-                num_allowed = len(image_allowed_coords)
-                bounds = [(0, num_allowed - 1)] + [(0, 1)] * channel
+                if self.colour is not None:
+                    # Restrict channel bounds to specific colour
+                    assert isinstance(self.colour, list) and len(self.colour) == 3
+                    channel_bounds = [(self.colour[i], self.colour[i]) for i in range(channel)]
+                    num_allowed = len(image_allowed_coords)
+                    bounds = [(0, num_allowed - 1)] + channel_bounds
+                else:
+                    num_allowed = len(image_allowed_coords)
+                    bounds = [(0, num_allowed - 1)] + [(0, 1)] * channel
 
             bounds = bounds * self.pixels
             popmul = max(1, int(self.popsize / len(bounds)))
