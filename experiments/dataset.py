@@ -78,7 +78,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
         else:
             if self.num_exp > 1:
                 # get _0, _1, _2 etc
-                exp_list = [exp for exp in exp_list if f"{self.exp_key}_{self.num_exp-1}" in exp]
+                exp_list = sorted([exp for exp in exp_list if f"{self.exp_key}_" in exp])
                 if len(exp_list) == 0:
                     print(f"No explanation found for {image_name} with {self.exp_key}_{self.num_exp-1}")
                     return None
@@ -111,16 +111,15 @@ class ImageNetDataset(torch.utils.data.Dataset):
                 exp_ness = self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
                 exp = self._exp_shape(torch.from_numpy(np.load(exp_suff)).to(self.device))
                 # combine with OR - to get intersection
-                return exp_ness | exp
+                return exp_ness & exp
             return self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
         else:
             for i in range(self.num_exp):
-                exp[i] = self.explanations_folder.parent / exp[i]
                 exp[i] = torch.from_numpy(np.load(exp[i])).to(self.device)
             # combine exps with OR
             ranking = self._exp_shape(exp[0])
-            for i in range(len(exp) - 1):
-                ranking = ranking | self._exp_shape(exp[i + 1])
+            for i in range(self.num_exp):
+                ranking = ranking | self._exp_shape(exp[i])
             return ranking.to(self.device)
 
     def process_ranking(self, ranking):
@@ -135,13 +134,9 @@ class ImageNetDataset(torch.utils.data.Dataset):
         image = Image.open(image_path).convert('RGB')
         if self.transform:
             image = self.transform(image)
-        print(f"Load path: {self.explanations_folder}")
         if self.explanations_folder is not None:
-            print(f"Loading explanation for {image_path.name}")
             exp = self.get_exp(image_path.name.strip(".JPEG"))
-            print(f"Explanation: {exp}")
             if exp is not None:
-                print(f"Processing explanation for {image_path.name}")
                 exp = self.process_exp(exp)
                 print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
