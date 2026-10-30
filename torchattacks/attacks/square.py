@@ -76,11 +76,12 @@ class Square(Attack):
 
         images = images.clone().detach().to(self.device)
         labels = labels.clone().detach().to(self.device)
+        labels = labels.squeeze()
         if mask is not None:
             mask = mask.clone().detach().to(self.device)
-            images = images * mask
-        
-        adv_images = self.perturb(images, labels)
+            if len(mask.shape) == 3:
+                mask = mask.unsqueeze(1)
+        adv_images = self.perturb(images, labels, mask=mask)
 
         return adv_images
 
@@ -203,6 +204,17 @@ class Square(Attack):
         return p
 
     def attack_single_run(self, x, y, mask=None):
+        """
+        :param x:           clean images
+        :param y:           untargeted attack -> clean labels,
+                            if None we use the predicted labels
+                            targeted attack -> target labels, if None random classes,
+                            different from the predicted ones, are sampled
+        :param mask:        mask to apply to the perturbation, if None no mask is applied
+                            mask is a tensor of bools of shape (N, H, W) where N is the 
+                            number of images, H is the height and W is the width
+        """
+
         with torch.no_grad():
             adv = x.clone()
             c, h, w = x.shape[1:]
@@ -210,8 +222,12 @@ class Square(Attack):
             n_ex_total = x.shape[0]
 
             if self.norm == "Linf":
+                initi_delta = self.eps * self.random_choice([x.shape[0], c, 1, w])
+                if mask is not None:
+                    initi_delta = initi_delta.masked_fill(~mask, 0.0)
+                    
                 x_best = torch.clamp(
-                    x + self.eps * self.random_choice([x.shape[0], c, 1, w]), 0.0, 1.0
+                    x + initi_delta, 0.0, 1.0
                 )
                 margin_min, loss_min = self.margin_and_loss(x_best, y)
                 n_queries = torch.ones(x.shape[0]).to(self.device)
@@ -240,13 +256,13 @@ class Square(Attack):
                         2.0 * self.eps * self.random_choice([c, 1, 1])
                     )
 
-                    if mask is not None:
-                        new_deltas = new_deltas * mask[idx_to_fool]
-
                     x_new = x_best_curr + new_deltas
                     x_new = torch.min(
                         torch.max(x_new, x_curr - self.eps), x_curr + self.eps
                     )
+                    if mask is not None:
+                        curr_mask = mask[idx_to_fool]
+                        x_new = torch.where(curr_mask, x_new, x_best_curr)
                     x_new = torch.clamp(x_new, 0.0, 1.0)
                     x_new = self.check_shape(x_new)
 
@@ -453,7 +469,6 @@ class Square(Attack):
                             targeted attack -> target labels, if None random classes,
                             different from the predicted ones, are sampled
         """
-
         self.init_hyperparam(x)
 
         adv = x.clone()
@@ -489,9 +504,10 @@ class Square(Attack):
             if ind_to_fool.numel() != 0:
                 x_to_fool = x[ind_to_fool].clone()
                 y_to_fool = y[ind_to_fool].clone()
-
+                if mask is not None:
+                    mask_to_use = mask[ind_to_fool].clone()
                 _, adv_curr = self.attack_single_run(x_to_fool, y_to_fool, 
-                                                     mask=mask[ind_to_fool] if mask is not None else None)
+                                                     mask=mask_to_use if mask is not None else None)
 
                 output_curr = self.get_logits(adv_curr)
                 if not self.targeted:
