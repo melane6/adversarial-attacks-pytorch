@@ -28,7 +28,7 @@ from torch.utils.data import DataLoader
 
 from dataset import ImageNetDataset
 from models import get_preprocessing, load_model
-from torchattacks import OnePixel, Pixle, CW
+from torchattacks import OnePixel, Pixle, Square
 
 def load_from_file(mask_path: str) -> torch.Tensor:
     """Load mask from file (.pt or .npy)."""
@@ -46,6 +46,7 @@ def get_attack(attack_name: str, model: nn.Module, **kwargs):
     attack_map = {
         'onepixel': OnePixel,
         'pixle': Pixle,
+        'square': Square,
     }
 
     if attack_name not in attack_map:
@@ -98,6 +99,7 @@ class ExperimentRunner:
         ranking: bool = False,
         num_exp: int = 1,
         colour: List[int] = None,
+        exp_key: str = "explanation"
     ) -> Dict:
         """
         Run experiment.
@@ -130,6 +132,7 @@ class ExperimentRunner:
             transform=get_preprocessing(model_name),
             ranking=ranking,
             num_exp=num_exp,
+            exp_key=exp_key
         )
         
         if num_samples > len(dataset):
@@ -210,10 +213,14 @@ class ExperimentRunner:
                 # Run attack
                 if mask_folder is not None:
                     try:
+                        print("Running attack with mask")
+                        print("images shape: ", images.shape)
                         images_adv = attack(images, pred_label, mask=mask)
                     except TypeError:
                         raise f"{attack_name} doesn't support mask parameter, running without mask"
                 else:
+                    print("Running attack without mask")
+                    print("images shape: ", images.shape)
                     images_adv = attack(images, pred_label)
                 
                 # Get predictions
@@ -260,7 +267,7 @@ class ExperimentRunner:
                             'original': images[i].cpu(),
                             'adversarial': images_adv[i].cpu(),
                             'perturbation': perturbation[i].cpu(),
-                            'metadata': results['samples'][batch_idx * batch_size + i - 1],
+                            'metadata': results['samples'][batch_idx * batch_size + i],
                         }, adv_path)
                 
                 self.logger.info(
@@ -329,7 +336,7 @@ def parse_args():
         '--attack',
         type=str,
         default='onepixel',
-        choices=['onepixel', 'pixle'],
+        choices=['onepixel', 'pixle', 'square'],
         help='Attack type'
     )
     
@@ -358,7 +365,7 @@ def parse_args():
     parser.add_argument('--output-dir', type=str, default='./results', help='Output directory')
     parser.add_argument('--no-save-adversarial', action='store_true', help='Do not save adversarial examples')
     parser.add_argument('--seed', type=int, default=0, help='Random seed')
-    
+    parser.add_argument('--exp_key', type=str, default='explanation', help='Explanation key to use for loading explanations')
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -385,6 +392,13 @@ if __name__ == '__main__':
     elif args.attack == 'pixle':
         attack_params = {
             'restarts': 10, # should add more params...
+        }
+    elif args.attack == 'square':
+        attack_params = { # Basically all the default params
+            'n_queries': 5000,
+            'p_init': 0.8,
+            'eps': 8/255,
+            'norm': 'Linf',
         }
 
     # Run experiment

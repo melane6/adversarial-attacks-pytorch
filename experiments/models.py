@@ -33,6 +33,26 @@ def load_model(model_name: str, device: torch.device, logging=None) -> nn.Module
 
     return model
 
+def get_gradcam_layer(model_name, model):
+
+    if model_name.startswith("resnet18"):
+        return model.layer4[-1].conv2
+
+    elif model_name.startswith("resnet"):
+        return model.layer4[-1].conv3
+
+    elif model_name.startswith("vgg"):
+        last_conv = None
+        for m in model.features.modules():
+            if isinstance(m, nn.Conv2d):
+                last_conv = m
+        return last_conv
+
+    elif model_name.startswith("convnext"):
+        return model.features[-1][-1]
+
+    raise ValueError(f"No GradCAM layer defined for {model_name}")
+
 def get_preprocessing(model_name: str):
     """Get preprocessing transform for model."""
     tfm = []

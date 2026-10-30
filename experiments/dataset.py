@@ -9,7 +9,7 @@ from PIL import Image
 
 class ImageNetDataset(torch.utils.data.Dataset):
     def __init__(self, dataset_path: Path, transform=None, device=None, ranking: bool = False,
-                 num_exp: int = 1):
+                 num_exp: int = 1, exp_key: str = "explanation"):
         self.dataset_path = dataset_path
         self.transform = transform
         self.json_path = dataset_path / "imagenet_class_index.json"
@@ -24,7 +24,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
         self.explanations_folder = None
         self.explanations = None
         self.exp_model = None
-        self.exp_key = "explanation"
+        self.exp_key = exp_key
         self.exp_key_complete = None
 
         self.ranking = ranking
@@ -107,11 +107,16 @@ class ImageNetDataset(torch.utils.data.Dataset):
     def process_exp(self, exp):
         if self.num_exp == 1:
             if self.exp_key_complete:
-                exp_suff = exp.replace("necessity", "explanation")
+                #exp_suff = exp.replace("necessity", "explanation")
                 exp_ness = self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
-                exp = self._exp_shape(torch.from_numpy(np.load(exp_suff)).to(self.device))
-                # combine with OR - to get intersection
-                return exp_ness & exp
+                #exp = self._exp_shape(torch.from_numpy(np.load(exp_suff)).to(self.device))
+                #importance = torch.logical_or(exp_ness, exp)
+                #neg_importance = torch.logical_not(importance)
+                if torch.sum(exp_ness) == 0:
+                    # all of it is 0 so just return all as 1 to search whole image
+                    print("All explanations are 0, returning all as 1")
+                    return torch.ones_like(importance)
+                return exp_ness
             return self._exp_shape(torch.from_numpy(np.load(exp)).to(self.device))
         else:
             for i in range(self.num_exp):
@@ -138,7 +143,7 @@ class ImageNetDataset(torch.utils.data.Dataset):
             exp = self.get_exp(image_path.name.strip(".JPEG"))
             if exp is not None:
                 exp = self.process_exp(exp)
-                print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
+                #print(f"Loaded explanation for {image_path.name}: shape {exp.shape}")
         else:
             exp = None
         row =  {

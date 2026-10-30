@@ -30,7 +30,6 @@ for MODEL in "${MODELS[@]}"; do
         else
             echo "Skipping: $ATTACK_FOLDER (Directory not found)"
         fi
-
     done
 done
 

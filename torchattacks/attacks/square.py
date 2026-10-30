@@ -69,13 +69,17 @@ class Square(Attack):
         self.rescale_schedule = resc_schedule
         self.supported_mode = ["default", "targeted"]
 
-    def forward(self, images, labels):
+    def forward(self, images, labels, mask: torch.Tensor = None):
         r"""
         Overridden.
         """
 
         images = images.clone().detach().to(self.device)
         labels = labels.clone().detach().to(self.device)
+        if mask is not None:
+            mask = mask.clone().detach().to(self.device)
+            images = images * mask
+        
         adv_images = self.perturb(images, labels)
 
         return adv_images
@@ -198,7 +202,7 @@ class Square(Attack):
 
         return p
 
-    def attack_single_run(self, x, y):
+    def attack_single_run(self, x, y, mask=None):
         with torch.no_grad():
             adv = x.clone()
             c, h, w = x.shape[1:]
@@ -235,6 +239,9 @@ class Square(Attack):
                     new_deltas[:, vh : vh + s, vw : vw + s] = (
                         2.0 * self.eps * self.random_choice([c, 1, 1])
                     )
+
+                    if mask is not None:
+                        new_deltas = new_deltas * mask[idx_to_fool]
 
                     x_new = x_best_curr + new_deltas
                     x_new = torch.min(
@@ -301,8 +308,13 @@ class Square(Attack):
                         vw += s
                     vh += s
 
+                delta_norm = self.normalize_delta(delta_init) 
+                if mask is not None:
+                    delta_norm = delta_norm * mask
+
+
                 x_best = torch.clamp(
-                    x + self.normalize_delta(delta_init) * self.eps, 0.0, 1.0
+                    x +  delta_norm * self.eps, 0.0, 1.0
                 )
                 margin_min, loss_min = self.margin_and_loss(x_best, y)
                 n_queries = torch.ones(x.shape[0]).to(self.device)
@@ -374,8 +386,12 @@ class Square(Attack):
                     delta_curr[:, :, vh2 : vh2 + s, vw2 : vw2 + s] = 0.0
                     delta_curr[:, :, vh : vh + s, vw : vw + s] = new_deltas + 0
 
+                    delta_norm = self.normalize_delta(delta_curr)
+                    if mask is not None:
+                        delta_norm = delta_norm * mask[idx_to_fool]
+
                     x_new = torch.clamp(
-                        x_curr + self.normalize_delta(delta_curr) * self.eps, 0.0, 1.0
+                        x_curr + delta_norm * self.eps, 0.0, 1.0
                     )
                     x_new = self.check_shape(x_new)
                     norms_image = self.lp_norm(x_new - x_curr)
@@ -429,7 +445,7 @@ class Square(Attack):
 
         return n_queries, x_best
 
-    def perturb(self, x, y=None):
+    def perturb(self, x, y=None, mask: torch.Tensor = None):
         """
         :param x:           clean images
         :param y:           untargeted attack -> clean labels,
@@ -474,7 +490,8 @@ class Square(Attack):
                 x_to_fool = x[ind_to_fool].clone()
                 y_to_fool = y[ind_to_fool].clone()
 
-                _, adv_curr = self.attack_single_run(x_to_fool, y_to_fool)
+                _, adv_curr = self.attack_single_run(x_to_fool, y_to_fool, 
+                                                     mask=mask[ind_to_fool] if mask is not None else None)
 
                 output_curr = self.get_logits(adv_curr)
                 if not self.targeted:

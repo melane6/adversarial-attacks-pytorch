@@ -16,10 +16,12 @@ DATASET_PATH="/mnt/data/Documents/imagenet-1k"
 
 # Default experiment parameters
 DEFAULT_NUM_SAMPLES=100
-DEFAULT_BATCH_SIZE=32
+DEFAULT_BATCH_SIZE=64
 DEFAULT_SEED=0
 DEFAULT_DEVICE="cuda"  # or "cpu"
+COMPLETE_EXP=False
 
+#python experiments/runner.py --model resnet18 --attack onepixel --pixels 1 --num-samples 1000 --dataset /mnt/data/Documents/ImageNet-Mini --output-dir resnet18-one-pixel-mask-ness-colour --mask-folder /mnt/data/Documents/ReX/resnet18_complete_exp/ --complete-exp True --colour 1 1 1
 for MODEL in "${MODELS_RESNET[@]}" "${MODELS_VGG[@]}" "${MODELS_CONVNEXT[@]}"; do
     for ATTACK in "${ATTACKS[@]}"; do
         ATTACK_FOLDER="${BASE_FOLDER}/${MODEL}/${MODEL}-${ATTACK}"
